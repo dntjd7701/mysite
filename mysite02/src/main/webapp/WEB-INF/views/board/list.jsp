@@ -27,16 +27,19 @@
 						<th>작성일</th>
 						<th>&nbsp;</th>
 					</tr>
-					<!-- ${vo.depth*20} -->				
+					<!-- ${vo.depth*20} -->	
+					
+								
 					<tr>
 						<td>3</td>
 						<td style="text-align:left; padding-left:0px"><a href="">세 번째 글입니다.</a></td>
 						<td>안대혁</td>
 						<td>3</td>
 						<td>2015-10-11 12:04:20</td>
+						
 						<td><a href="" class="del">삭제</a></td>
 					</tr>
-					<tr>
+					<%-- <tr>
 						<td>2</td>
 						<td style="text-align:left; padding-left:20px"><img alt="" src="${pageContext.servletContext.contextPath }/assets/images/reply.png"><a href="">두 번째 글입니다.</a></td>
 						<td>안대혁</td>
@@ -51,7 +54,7 @@
 						<td>3</td>
 						<td>2015-09-25 07:24:32</td>
 						<td><a href="" class="del">삭제</a></td>
-					</tr>
+					</tr> --%>
 				</table>
 				
 				<!-- pager 추가 -->

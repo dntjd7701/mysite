@@ -18,6 +18,8 @@
 					<input type="text" id="kwd" name="kwd" value="">
 					<input type="submit" value="찾기">
 				</form>
+				
+				
 				<table class="tbl-ex">
 					<tr>
 						<th>번호</th>
@@ -34,7 +36,7 @@
 					<c:forEach items='${lists }' var='list' varStatus='status' >			
 					<tr>
 						<td>${count-status.index }</td>
-						<td style="text-align:left; padding-left:0px"><a href="">${list.contents }</a></td>
+						<td style="text-align:left; padding-left:0px"><a href="${pageContext.request.contextPath }/board?a=view&no=${list.userNo}">${list.title }</a></td>
 						<td>${list.userName }</td>
 						<td>${list.hit }</td>
 						<td>${list.regDate }</td>
@@ -42,23 +44,11 @@
 						<td><a href="" class="del">삭제</a></td>
 					</tr>
 					</c:forEach>
-					<%-- <tr>
-						<td>2</td>
-						<td style="text-align:left; padding-left:20px"><img alt="" src="${pageContext.servletContext.contextPath }/assets/images/reply.png"><a href="">두 번째 글입니다.</a></td>
-						<td>안대혁</td>
-						<td>3</td>
-						<td>2015-10-02 12:04:12</td>
-						<td><a href="" class="del">삭제</a></td>
-					</tr>
-					<tr>
-						<td>1</td>
-						<td style="text-align:left; padding-left:40px"><img alt="" src="${pageContext.servletContext.contextPath }/assets/images/reply.png"><a href="">첫 번째 글입니다.</a></td>
-						<td>안대혁</td>
-						<td>3</td>
-						<td>2015-09-25 07:24:32</td>
-						<td><a href="" class="del">삭제</a></td>
-					</tr> --%>
+					
 				</table>
+				
+				
+				
 				
 				<!-- pager 추가 -->
 				<div class="pager">

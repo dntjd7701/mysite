@@ -128,7 +128,7 @@ public class BoardRepository {
 			conn = getConnection();
 			
 			String sql ="select b.no, b.title, b.depth, b.hit, u.name,"
-					+ " b.user_no, date_format, date_format(reg_date, '%Y/%m/%d %H:%i:%s') as reg_date "
+					+ " b.user_no, date_format(reg_date, '%Y/%m/%d %H:%i:%s') as reg_date "
 					+ " from user u, board b"
 					+ " where b.user_no=u.no"
 					+ " order by group_no DESC, order_no asc";

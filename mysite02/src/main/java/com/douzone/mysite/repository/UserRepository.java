@@ -71,7 +71,7 @@ public class UserRepository {
 				conn = getConnection();
 				
 				String sql =
-						" select no, name" +
+						" select no, name, gender" +
 						" from user" +
 						" where email=? and password=?";
 				pstmt = conn.prepareStatement(sql);
@@ -79,16 +79,20 @@ public class UserRepository {
 				
 				pstmt.setString(1, email);
 				pstmt.setString(2, password);
+			
 				 
 				rs = pstmt.executeQuery();
 				while(rs.next()) {
 					Long no = rs.getLong(1);
 					String name = rs.getString(2);
+					String gender = rs.getString(3);
 					
 					
 					result = new UserVo();
 					result.setNo(no);
 					result.setName(name);
+					result.setEmail(email);
+					result.setGender(gender);
 					
 				}
 				

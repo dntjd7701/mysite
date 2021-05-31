@@ -21,20 +21,35 @@
 				<form id="join-form" name="joinForm" method="post" action="${pageContext.request.contextPath }/user">
 					<input type="hidden" name="a" value="update" />
 					<label class="block-label" for="name">이름</label>
-					<input id="name" name="name" type="text" value="">
+					<input id="name" name="name" type="text" value="${authUser.name }">
 
 					<label class="block-label" for="email">이메일</label>
-					<h4>${authUser.email }]</h4>
+					<h4>${authUser.email }</h4>
 					
 					<label class="block-label">패스워드</label>
 					<input name="password" type="password" value="">
 					
 					<fieldset>
+					
+					<!--만약에 authUser.gender가 남이면 체크 체크,   -->
+					<!-- 잘했어.  -->
+					<c:choose>
+					<c:when test='${authUser.gender == "female" }'>
 						<legend>성별</legend>
 						<label>여</label> <input type="radio" name="gender" value="female" checked="checked">
 						<label>남</label> <input type="radio" name="gender" value="male">
-						
+					</c:when>
+					<c:otherwise>
+						<legend>성별</legend>
+						<label>여</label> <input type="radio" name="gender" value="female">
+						<label>남</label> <input type="radio" name="gender" value="male" checked="checked">
+					</c:otherwise>
+					</c:choose>
+					
+					
 					</fieldset>
+					
+					
 					
 					<input type="submit" value="수정하기">
 					

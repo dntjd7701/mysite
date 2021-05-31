@@ -7,9 +7,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.douzone.mvc.Action;
-import com.douzone.mvc.util.MvcUtils;
 import com.douzone.mysite.vo.UserVo;
+import com.douzone.web.Action;
+import com.douzone.web.util.MvcUtils;
 
 public class UpdateAction implements Action {
 
@@ -29,7 +29,6 @@ public class UpdateAction implements Action {
 			MvcUtils.redirect(request.getContextPath(), request, response);
 			return;
 		}
-		
 		
 		Long userNo = authUser.getNo();
 		//UserVo userVo = new UserRepository().findByNo(userNo);

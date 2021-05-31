@@ -91,6 +91,109 @@ public class BoardRepository {
 				pstmt.setInt(3, vo.getGroupNo());
 				pstmt.setLong(4, vo.getUserNo());
 		
+		
+			
+			int count = pstmt.executeUpdate();
+			result = count == 1;
+			
+		} catch (SQLException e) {
+			System.out.println("error:" + e);
+		} finally {
+			try {if(rs != null) {
+					rs.close();
+				}	
+				if(pstmt != null) {
+					pstmt.close();
+				}
+				if(conn != null) {
+					conn.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}		
+		
+		return result;
+	}
+
+
+	public List<BoardVo> findAll() {
+		List<BoardVo> list = new ArrayList<>();
+		
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+				
+		try {
+			conn = getConnection();
+			
+			String sql ="select b.no, b.title, b.depth, b.hit, u.name,"
+					+ " b.user_no, date_format, date_format(reg_date, '%Y/%m/%d %H:%i:%s') as reg_date "
+					+ " from user u, board b"
+					+ " where b.user_no=u.no"
+					+ " order by group_no DESC, order_no asc";
+			
+			pstmt = conn.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				Long no = rs.getLong(1);
+				String title = rs.getString(2);
+				int depth = rs.getInt(3);
+				int hit = rs.getInt(4);
+				String name = rs.getString(5);
+				Long user_no = rs.getLong(6);
+				String reg_date = rs.getString(7);
+				
+				BoardVo vo = new BoardVo();
+				vo.setNo(no);
+				vo.setTitle(title);
+				vo.setDepth(depth);
+				vo.setHit(hit);
+				vo.setUserName(name);
+				vo.setUserNo(user_no);
+				vo.setRegDate(reg_date);
+				
+				list.add(vo);
+			}
+			
+		} catch (SQLException e) {
+			System.out.println("error:" + e);
+		} finally {
+			try {
+				if(rs != null) {
+					rs.close();
+				}
+				if(pstmt != null) {
+					pstmt.close();
+				}
+				if(conn != null) {
+					conn.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return list;
+	}
+	
+	public boolean delete(BoardVo vo) {
+		boolean result = false;
+
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		try {
+			conn = getConnection();
+			
+			String sql =
+					" delete" +
+					"   from guestbook" +
+					"  where no=?" +
+					"    and password=?";
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setLong(1, vo.getNo());
 			
 			int count = pstmt.executeUpdate();
 			result = count == 1;
@@ -110,104 +213,8 @@ public class BoardRepository {
 			}
 		}		
 		
-		return result;
+		return result;		
 	}
-
-
-
 	
-//	
-//	public List<BoardVo> findAll() {
-//		List<BoardVo> list = new ArrayList<>();
-//		
-//		Connection conn = null;
-//		PreparedStatement pstmt = null;
-//		ResultSet rs = null;
-//				
-//		try {
-//			conn = getConnection();
-//			
-//			String sql =
-//				"   select no, name, date_format(reg_date, '%Y/%m/%d %H:%i:%s') as reg_date, message" +
-//				"     from guestbook" +
-//				" order by reg_date desc";
-//			pstmt = conn.prepareStatement(sql);
-//			
-//			rs = pstmt.executeQuery();
-//			
-//			while(rs.next()) {
-//				Long no = rs.getLong(1);
-//				String name = rs.getString(2);
-//				String regDate = rs.getString(3);
-//				String message = rs.getString(4);
-//				
-//				BoardVo vo = new BoardVo();
-//				vo.setNo(no);
-//				vo.setName(name);
-//				vo.setRegDate(regDate);
-//				vo.setMessage(message);
-//				
-//				list.add(vo);
-//			}
-//			
-//		} catch (SQLException e) {
-//			System.out.println("error:" + e);
-//		} finally {
-//			try {
-//				if(rs != null) {
-//					rs.close();
-//				}
-//				if(pstmt != null) {
-//					pstmt.close();
-//				}
-//				if(conn != null) {
-//					conn.close();
-//				}
-//			} catch (SQLException e) {
-//				e.printStackTrace();
-//			}
-//		}
-//		
-//		return list;
-//	}
-//	
-//	public boolean delete(BoardVo vo) {
-//		boolean result = false;
-//
-//		Connection conn = null;
-//		PreparedStatement pstmt = null;
-//		try {
-//			conn = getConnection();
-//			
-//			String sql =
-//					" delete" +
-//					"   from guestbook" +
-//					"  where no=?" +
-//					"    and password=?";
-//			pstmt = conn.prepareStatement(sql);
-//			
-//			pstmt.setLong(1, vo.getNo());
-//			
-//			int count = pstmt.executeUpdate();
-//			result = count == 1;
-//			
-//		} catch (SQLException e) {
-//			System.out.println("error:" + e);
-//		} finally {
-//			try {
-//				if(pstmt != null) {
-//					pstmt.close();
-//				}
-//				if(conn != null) {
-//					conn.close();
-//				}
-//			} catch (SQLException e) {
-//				e.printStackTrace();
-//			}
-//		}		
-//		
-//		return result;		
-//	}
-//	
-//	
+	
 }

@@ -68,15 +68,21 @@
 				</div>					
 				<!-- pager 추가 -->
 				
+				<c:if test='${not empty authUser }'>
 				<div class="bottom">
-					<a href="" id="new-book">글쓰기</a>
-				</div>				
+					<a href="${pageContext.request.contextPath }/board?a=writeform" id="new-book">글쓰기</a>
+				</div>
+				</c:if>
+								
 			</div>
 		</div>
+		
 		<c:import url="/WEB-INF/views/includes/navigation.jsp">
 			<c:param name="menu" value="board"/>
 		</c:import>
 		<c:import url="/WEB-INF/views/includes/footer.jsp"/>
+		
+		
 	</div>
 </body>
 </html>

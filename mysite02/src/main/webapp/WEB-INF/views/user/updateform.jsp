@@ -24,6 +24,7 @@
 					<input id="name" name="name" type="text" value="${authUser.name }">
 
 					<label class="block-label" for="email">이메일</label>
+					<input type="hidden" name="email" value='${authUser.email }'/>
 					<h4>${authUser.email }</h4>
 					
 					<label class="block-label">패스워드</label>

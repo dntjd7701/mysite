@@ -24,6 +24,7 @@ public class UpdateAction implements Action {
 			return;
 		}
 		// 이건 꼭!!!!있어야함 
+		// 로그인이 되었는지 확인하는거임. UserVo가 null값이면 로그인 안한거기 때문. 
 		UserVo authUser = (UserVo)session.getAttribute("authUser");
 		if(authUser == null) {
 			MvcUtils.redirect(request.getContextPath(), request, response);

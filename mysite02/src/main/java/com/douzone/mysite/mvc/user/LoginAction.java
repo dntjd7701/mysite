@@ -44,7 +44,7 @@ public class LoginAction implements Action {
 		MvcUtils.redirect(request.getContextPath(), request, response);
 		
 		
-		System.out.println(email + ":" + password);
+//		System.out.println(email + ":" + password);
 	}
 
 }

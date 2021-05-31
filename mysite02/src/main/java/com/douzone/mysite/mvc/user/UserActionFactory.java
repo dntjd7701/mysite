@@ -24,7 +24,8 @@ public class UserActionFactory extends ActionFactory {
 			action = new LogoutAction();
 		} else if ("updateform".equals(actionName)) {
 			action = new UpdateAction();
-		} else {
+		} 
+		else {
 			action = new MainAction();
 		}
 

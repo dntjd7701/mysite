@@ -42,7 +42,9 @@
 						<td>${list.regDate }</td>
 						
 						<c:if test='${authUser.no == list.userNo }'>
-						<td><a href="" class="del">삭제</a></td>
+						<td>
+						<a href="${pageContext.request.contextPath }/board?a=delete&no=${list.no}" class="del">삭제</a>
+						</td>
 						</c:if>
 					</tr>
 					</c:forEach>

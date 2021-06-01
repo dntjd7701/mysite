@@ -178,7 +178,7 @@ public class BoardRepository {
 		return list;
 	}
 	
-	public boolean delete(BoardVo vo) {
+	public boolean delete(Long no) {
 		boolean result = false;
 
 		Connection conn = null;
@@ -188,12 +188,11 @@ public class BoardRepository {
 			
 			String sql =
 					" delete" +
-					"   from guestbook" +
-					"  where no=?" +
-					"    and password=?";
+					"  from board" +
+					"  where no=?";
 			pstmt = conn.prepareStatement(sql);
 			
-			pstmt.setLong(1, vo.getNo());
+			pstmt.setLong(1, no);
 			
 			int count = pstmt.executeUpdate();
 			result = count == 1;

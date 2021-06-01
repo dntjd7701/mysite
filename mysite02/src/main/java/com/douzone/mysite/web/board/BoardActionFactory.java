@@ -15,6 +15,8 @@ public class BoardActionFactory extends ActionFactory {
 			action = new ViewAction();
 		} else if ("write".equals(actionName)) {
 			action = new WriteAction();
+		} else if ("modifyform".equals(actionName)) {
+			action = new ModifyFormAction();
 		} else if ("modify".equals(actionName)) {
 			action = new ModifyAction();
 		} else { // default action

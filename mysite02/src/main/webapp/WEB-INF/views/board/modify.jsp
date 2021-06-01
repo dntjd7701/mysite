@@ -19,7 +19,8 @@
 			
 		<div id="content">
 			<div id="board">
-				<form class="board-form" method="post" action="">
+				<form class="board-form" method="post" action="${pageContext.request.contextPath }/board?a=modify">
+				<input type="hidden" name=no value="${param.no }">
 					<table class="tbl-ex">
 						<tr>
 							<th colspan="2">글수정</th>
@@ -43,7 +44,7 @@
 					
 					<div class="bottom">
 						<a href="${pageContext.request.contextPath }/board">취소</a>
-						<input type="submit" value="수정">
+						<input type="submit" value="수정" >
 					</div>
 				</form>				
 			</div>

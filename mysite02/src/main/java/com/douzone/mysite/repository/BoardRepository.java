@@ -275,4 +275,47 @@ public class BoardRepository {
 	return list;
 	}
 
+
+
+	public boolean UpdateTitleAndContent(Long no, String modifiedTitle, String modifiedContent) {
+		boolean result = false;
+
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try {
+			conn = getConnection();
+			
+			String sql = "update board"
+					+ " set title=?, contents=?"
+					+ " where no=?";
+				pstmt = conn.prepareStatement(sql);
+				
+				pstmt.setString(1, modifiedTitle);
+				pstmt.setString(2, modifiedContent);
+				pstmt.setLong(3, no);
+		
+			
+			int count = pstmt.executeUpdate();
+			result = count == 1;
+			
+		} catch (SQLException e) {
+			System.out.println("error:" + e);
+		} finally {
+			try {if(rs != null) {
+					rs.close();
+				}	
+				if(pstmt != null) {
+					pstmt.close();
+				}
+				if(conn != null) {
+					conn.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}		
+		
+		return result;
+	}
 }

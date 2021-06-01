@@ -244,14 +244,10 @@ public class BoardRepository {
 			int hit = rs.getInt(4);
 			Long user_no = rs.getLong(5);
 			
-			// 개행문자 치환
-			String newlineAdapt = contents.replaceAll("\r\n", "<br>");
-			
-			
 			BoardVo vo = new BoardVo();
 			vo.setNo(no);
 			vo.setTitle(title);
-			vo.setContents(newlineAdapt);
+			vo.setContents(contents);
 			vo.setHit(hit);
 			vo.setUserNo(user_no);
 			

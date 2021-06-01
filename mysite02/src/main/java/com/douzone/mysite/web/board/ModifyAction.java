@@ -12,28 +12,25 @@ import com.douzone.mysite.vo.BoardVo;
 import com.douzone.web.Action;
 import com.douzone.web.util.MvcUtils;
 
-public class ViewAction implements Action {
+public class ModifyAction implements Action {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		Long matchNo = Long.parseLong(request.getParameter("no"));
 		request.getParameter("userNo");
-		
-		
+
 		List<BoardVo> viewInfo = new BoardRepository().findByViewInfo(matchNo);
 		
-
 		for(BoardVo vo : viewInfo) {
 			String contents = vo.getContents();
-			// 개행문자 치환
-			String newlineAdapt = contents.replaceAll("\r\n", "<br>");
-			vo.setContents(newlineAdapt);
+			String replaceContents = contents.replaceAll("<br>", "\r\n");
+			vo.setContents(replaceContents);
 		}
 		
-	
 		request.setAttribute("viewInfos", viewInfo);
-		MvcUtils.forward("board/view", request, response);
+		
+		MvcUtils.forward("board/modify", request, response);
 	}
 
 }

@@ -16,10 +16,15 @@ public class ViewAction implements Action {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		List<BoardVo> list = new BoardRepository().findAll();
 		
-		request.setAttribute("lists", list);
+		Long matchNo = Long.parseLong(request.getParameter("no"));
+		request.getParameter("userNo");
 		
+		
+		List<BoardVo> viewInfo = new BoardRepository().findByViewInfo(matchNo);
+		
+		
+		request.setAttribute("viewInfos", viewInfo);
 		MvcUtils.forward("board/view", request, response);
 	}
 

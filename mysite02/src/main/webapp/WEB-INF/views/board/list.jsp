@@ -36,7 +36,7 @@
 					<c:forEach items='${lists }' var='list' varStatus='status' >			
 					<tr>
 						<td>${count-status.index }</td>
-						<td style="text-align:left; padding-left:0px"><a href="${pageContext.request.contextPath }/board?a=view&no=${list.userNo}">${list.title }</a></td>
+						<td style="text-align:left; padding-left:0px"><a href="${pageContext.request.contextPath }/board?a=view&userNo=${list.userNo}&no=${list.no}">${list.title }</a></td>
 						<td>${list.userName }</td>
 						<td>${list.hit }</td>
 						<td>${list.regDate }</td>
@@ -54,7 +54,7 @@
 				<div class="pager">
 					<ul>
 						<li><a href="">◀</a></li>
-						<li><a href="/mysite02/board?p=1">1</a></li>
+						<li><a href ="/mysite02/board?p=1">1</a></li>
 						<li class="selected">2</li>
 						<li><a href="/mysite02/board?p=3">3</a></li>
 						<li>4</li>

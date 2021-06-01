@@ -215,6 +215,68 @@ public class BoardRepository {
 		
 		return result;		
 	}
+
+
+
+	public List<BoardVo> findByViewInfo(Long matchNo){
+	List<BoardVo> list = new ArrayList<>();
 	
+	Connection conn = null;
+	PreparedStatement pstmt = null;
+	ResultSet rs = null;
+			
+	try {
+		conn = getConnection();
+		
+		String sql = "select no, title, contents, hit, user_no"
+				+ " from board"
+				+ " where no=?";
+		
+		pstmt = conn.prepareStatement(sql);
+		pstmt.setLong(1, matchNo);
+		
+		rs = pstmt.executeQuery();
+		
+		while(rs.next()) {
+			Long no = rs.getLong(1);
+			String title = rs.getString(2);
+			String contents = rs.getString(3);
+			int hit = rs.getInt(4);
+			Long user_no = rs.getLong(5);
+			
+			// 개행문자 치환
+			String newlineAdapt = contents.replaceAll("\r\n", "<br>");
+			
+			
+			BoardVo vo = new BoardVo();
+			vo.setNo(no);
+			vo.setTitle(title);
+			vo.setContents(newlineAdapt);
+			vo.setHit(hit);
+			vo.setUserNo(user_no);
+			
+			list.add(vo);
+		}
+		
+	} catch (SQLException e) {
+		System.out.println("error:" + e);
+	} finally {
+		try {
+			if(rs != null) {
+				rs.close();
+			}
+			if(pstmt != null) {
+				pstmt.close();
+			}
+			if(conn != null) {
+				conn.close();
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 	
+	return list;
+	}
+
 }

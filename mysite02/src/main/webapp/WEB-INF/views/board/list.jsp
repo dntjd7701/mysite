@@ -36,7 +36,17 @@
 					<c:forEach items='${lists }' var='list' varStatus='status' >			
 					<tr>
 						<td>${count-status.index }</td>
-						<td style="text-align:left; padding-left:0px"><a href="${pageContext.request.contextPath }/board?a=view&userNo=${list.userNo}&no=${list.no}">${list.title }</a></td>
+						<td style="text-align:left; padding-left:${list.orderNo*20}px">
+							
+							<c:if test='${list.orderNo!=0 }'>		
+								<img alt="" src="${pageContext.request.contextPath }/assets/images/reply.png">
+							</c:if>
+							<a href="${pageContext.request.contextPath }/board?a=view&userNo=${list.userNo}&no=${list.no}">
+							${list.title }
+							</a>
+						
+						
+						</td>
 						<td>${list.userName }</td>
 						<td>${list.hit }</td>
 						<td>${list.regDate }</td>

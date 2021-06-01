@@ -21,14 +21,12 @@ public class UpdateAction implements Action {
 		HttpSession session = request.getSession();
 		boolean result = false;
 		
-		if(session == null) {
-			return;
-		}
-		
 		// UserVo로 session 정보를 통해, authUser 값을 입력 
 		UserVo authUser = (UserVo)session.getAttribute("authUser");
-		
-		
+		if(authUser == null) {
+			MvcUtils.redirect(request.getContextPath(), request, response);
+			return;
+		}
 		// 그에 대한 조건 검사가 필요함.
 		
 		

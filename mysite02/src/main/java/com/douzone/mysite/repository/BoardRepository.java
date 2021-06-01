@@ -83,13 +83,15 @@ public class BoardRepository {
 			String sql = "insert" 
 						+ " into board" 
 						+ " values (null, ?, ?, now(), 0,"
-						+ " ? , 0, 0, ?)";
+						+ " ? , ?, ?, ?)";
 				pstmt = conn.prepareStatement(sql);
 				
 				pstmt.setString(1, vo.getTitle());
 				pstmt.setString(2, vo.getContents());
 				pstmt.setInt(3, vo.getGroupNo());
-				pstmt.setLong(4, vo.getUserNo());
+				pstmt.setInt(4, vo.getOrderNo());
+				pstmt.setInt(5, vo.getDepth());
+				pstmt.setLong(6, vo.getUserNo());
 		
 		
 			
@@ -128,7 +130,8 @@ public class BoardRepository {
 			conn = getConnection();
 			
 			String sql ="select b.no, b.title, b.depth, b.hit, u.name,"
-					+ " b.user_no, date_format(reg_date, '%Y/%m/%d %H:%i:%s') as reg_date "
+					+ " b.user_no, date_format(reg_date, '%Y/%m/%d %H:%i:%s') as reg_date,"
+					+ " b.group_no, b.order_no, b.depth "
 					+ " from user u, board b"
 					+ " where b.user_no=u.no"
 					+ " order by group_no DESC, order_no asc";
@@ -145,6 +148,9 @@ public class BoardRepository {
 				Long user_no = rs.getLong(6);
 				String reg_date = rs.getString(7);
 				
+				int groupNo = rs.getInt(8);
+				int orderNo = rs.getInt(9);
+				
 				BoardVo vo = new BoardVo();
 				vo.setNo(no);
 				vo.setTitle(title);
@@ -153,6 +159,8 @@ public class BoardRepository {
 				vo.setUserName(name);
 				vo.setUserNo(user_no);
 				vo.setRegDate(reg_date);
+				vo.setGroupNo(groupNo);
+				vo.setOrderNo(orderNo);
 				
 				list.add(vo);
 			}
@@ -317,4 +325,101 @@ public class BoardRepository {
 		
 		return result;
 	}
+
+
+	public BoardVo findByIDs(Long contentNo) {
+		BoardVo vo = null;
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+				
+		try {
+			conn = getConnection();
+			
+			String sql ="select group_no, order_no, depth, user_no"
+					+ " from board"
+					+ " where no=?";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setLong(1, contentNo);
+			
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				int groupNo = rs.getInt(1);
+				int orderNo = rs.getInt(2);
+				int depth = rs.getInt(3);
+				Long userNo = rs.getLong(4);
+				
+				vo = new BoardVo();
+				vo.setDepth(depth);
+				vo.setGroupNo(groupNo);
+				vo.setOrderNo(orderNo);
+				vo.setUserNo(userNo);
+				
+			}
+			
+		} catch (SQLException e) {
+			System.out.println("error:" + e);
+		} finally {
+			try {
+				if(rs != null) {
+					rs.close();
+				}
+				if(pstmt != null) {
+					pstmt.close();
+				}
+				if(conn != null) {
+					conn.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return vo;
+	}
+
+
+
+	public void updateNo(BoardVo vo) {
+		boolean result = false;
+
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try {
+			conn = getConnection();
+			
+			String sql = "update board"
+					+ " set order_no=order_no+1"
+					+ " where group_no=? and order_no >= ?";
+				pstmt = conn.prepareStatement(sql);
+				
+				pstmt.setInt(1, vo.getGroupNo());
+				pstmt.setInt(2, vo.getOrderNo());
+		
+			
+				pstmt.executeUpdate();
+			
+			
+		} catch (SQLException e) {
+			System.out.println("error:" + e);
+		} finally {
+			try {if(rs != null) {
+					rs.close();
+				}	
+				if(pstmt != null) {
+					pstmt.close();
+				}
+				if(conn != null) {
+					conn.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}		
+		
+	}
+	
 }

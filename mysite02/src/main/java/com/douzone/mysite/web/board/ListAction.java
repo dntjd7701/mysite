@@ -27,6 +27,8 @@ public class ListAction implements Action {
 
 		// 페이지에 출력하고 싶은 수 
 		int onePageCount = 5;
+		
+		
 		// 현재 페이지 
 		int currentPage = 1;
 		
@@ -35,9 +37,11 @@ public class ListAction implements Action {
 		}
 		
 		int startPage = (currentPage-1)*onePageCount;
-		int firstPage = 1;
-		int lastPage = currentPage+2 >= totalPage?totalPage:currentPage >= 3?currentPage+2:5;
 		
+		
+		
+		int firstPage = currentPage >= 3 ? currentPage-2 : 1;
+		int lastPage = currentPage >= 3 ? (currentPage+2>=totalPage?totalPage:currentPage+2) : (5 > totalPage?totalPage:5);
 		
 		// 왼쪽, 오른쪽
 		int prevPage = currentPage-1;

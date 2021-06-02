@@ -68,9 +68,8 @@
 				
 				<div class="pager">
 					<ul>
-						<c:if test="${m }">	
 							<c:if test="${map.currentPage!=1 }">
-								<li><a href ="${pageContext.request.contextPath }/board?page=${map.firstPage}">≪</a></li>
+								<li><a href ="${pageContext.request.contextPath }/board?page=${1}">≪</a></li>
 							</c:if>	
 							<c:if test="${map.currentPage!=1 }">
 								<li><a href ="${pageContext.request.contextPath }/board?page=${map.prevPage}">＜</a></li>
@@ -85,9 +84,8 @@
 								<li><a href ="${pageContext.request.contextPath }/board?page=${map.nextPage }">＞</a></li>
 							</c:if>		
 							<c:if test="${map.currentPage<map.totalPage }">
-								<li><a href ="${pageContext.request.contextPath }/board?page=${map.lastPage }">≫</a></li>
+								<li><a href ="${pageContext.request.contextPath }/board?page=${map.totalPage }">≫</a></li>
 							</c:if>		
-						</c:if>
 					</ul>
 				</div>					
 				<!-- pager 추가 -->

@@ -443,7 +443,8 @@ public class BoardRepository {
 			conn = getConnection();
 			
 			String sql ="select b.no, b.title, b.hit, u.name,"
-					+ " b.user_no, date_format(reg_date, '%Y/%m/%d %H:%i:%s') as reg_date"
+					+ " b.user_no, date_format(reg_date, '%Y/%m/%d %H:%i:%s') as reg_date,"
+					+ " b.order_no, b.depth"
 					+ " from user u, board b"
 					+ " where b.user_no=u.no"
 					+ " order by group_no DESC, order_no asc"
@@ -461,6 +462,8 @@ public class BoardRepository {
 				String name = rs.getString(4);
 				Long user_no = rs.getLong(5);
 				String reg_date = rs.getString(6);
+				int order_no = rs.getInt(7);
+				int depth = rs.getInt(8);
 				
 				BoardVo vo = new BoardVo();
 				vo.setNo(no);
@@ -469,6 +472,9 @@ public class BoardRepository {
 				vo.setUserName(name);
 				vo.setUserNo(user_no);
 				vo.setRegDate(reg_date);
+				vo.setOrderNo(order_no);
+				vo.setDepth(depth);
+				
 				
 				list.add(vo);
 			}

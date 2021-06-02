@@ -35,7 +35,7 @@
 					<c:set var='count' value="${fn:length(lists) }" />
 					<c:forEach items='${lists }' var='list' varStatus='status' >			
 					<tr>
-						<td>${count-status.index }</td>
+						<td>${map.startPage+status.count }</td>
 						<td style="text-align:left; padding-left:${list.depth*20}px">
 							
 							<c:if test='${list.depth!=0 }'>		
@@ -67,11 +67,28 @@
 				<!-- pager 추가 -->
 				
 				<div class="pager">
-						<ul>
-						<c:forEach begin="${1 }" end="${totalPage }" step="${1 }" items="${totalPage }">
-							<li><a href ="${pageContext.request.contextPath }/board?page=${totalPage }">${totalPage }</a></li>
-						</c:forEach>		
-						</ul>
+					<ul>
+						<c:if test="${m }">	
+							<c:if test="${map.currentPage!=1 }">
+								<li><a href ="${pageContext.request.contextPath }/board?page=${map.firstPage}">≪</a></li>
+							</c:if>	
+							<c:if test="${map.currentPage!=1 }">
+								<li><a href ="${pageContext.request.contextPath }/board?page=${map.prevPage}">＜</a></li>
+							</c:if>	
+								
+									<c:forEach begin="${map.firstPage }" end="${map.lastPage }" step="1" varStatus="status" var="sel">
+										<li  <c:if test="${map.currentPage==sel }"> class="selected" </c:if> ><a href ="${pageContext.request.contextPath }/board?page=${(status.count-1)+map.firstPage }">${(status.count-1)+map.firstPage }</a></li>
+									</c:forEach>
+									
+							
+							<c:if test="${map.currentPage<map.totalPage }">
+								<li><a href ="${pageContext.request.contextPath }/board?page=${map.nextPage }">＞</a></li>
+							</c:if>		
+							<c:if test="${map.currentPage<map.totalPage }">
+								<li><a href ="${pageContext.request.contextPath }/board?page=${map.lastPage }">≫</a></li>
+							</c:if>		
+						</c:if>
+					</ul>
 				</div>					
 				<!-- pager 추가 -->
 				

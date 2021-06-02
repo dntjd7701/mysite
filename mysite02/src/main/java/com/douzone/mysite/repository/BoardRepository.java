@@ -431,46 +431,8 @@ public class BoardRepository {
 		return totalPage;
 		
 	}
-	public int totalCount() {
-		Connection conn = null;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		int totalCount = 0;
-		try {
-			conn = getConnection();
-			
-			String sql = "select count(*) from board";
-			
-			pstmt = conn.prepareStatement(sql);
-			rs = pstmt.executeQuery();
-			
-			while(rs.next()) {
-				totalCount = rs.getInt(1);
-			}
-			
-		} catch (SQLException e) {
-			System.out.println("error:" + e);
-		} finally {
-			try {
-				if(rs != null) {
-					rs.close();
-				}
-				if(pstmt != null) {
-					pstmt.close();
-				}
-				if(conn != null) {
-					conn.close();
-				}
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
-		
-		return totalCount;
-		
-	}
 
-	public List<BoardVo> findThisPage(int start, int totalPage) {
+	public List<BoardVo> findThisPage(int startPage, int onePageCount) {
 		List<BoardVo> list = new ArrayList<>();
 		
 		Connection conn = null;
@@ -485,11 +447,11 @@ public class BoardRepository {
 					+ " from user u, board b"
 					+ " where b.user_no=u.no"
 					+ " order by group_no DESC, order_no asc"
-					+ " limit(?, ?)";
+					+ " limit ?, ?";
 			// 5개씩 보여줄 예정, 
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, start);
-			pstmt.setInt(2, totalPage);
+			pstmt.setInt(1, startPage);
+			pstmt.setInt(2, onePageCount);
 			rs = pstmt.executeQuery();
 			
 			while(rs.next()) {
@@ -532,71 +494,5 @@ public class BoardRepository {
 		return list;
 	}
 
-//	public List<BoardVo> findAll() {
-//		List<BoardVo> list = new ArrayList<>();
-//		
-//		Connection conn = null;
-//		PreparedStatement pstmt = null;
-//		ResultSet rs = null;
-//				
-//		try {
-//			conn = getConnection();
-//			
-//			String sql ="select b.no, b.title, b.depth, b.hit, u.name,"
-//					+ " b.user_no, date_format(reg_date, '%Y/%m/%d %H:%i:%s') as reg_date,"
-//					+ " b.group_no, b.order_no, b.depth "
-//					+ " from user u, board b"
-//					+ " where b.user_no=u.no"
-//					+ " order by group_no DESC, order_no asc";
-//			
-//			pstmt = conn.prepareStatement(sql);
-//			rs = pstmt.executeQuery();
-//			
-//			while(rs.next()) {
-//				Long no = rs.getLong(1);
-//				String title = rs.getString(2);
-//				int depth = rs.getInt(3);
-//				int hit = rs.getInt(4);
-//				String name = rs.getString(5);
-//				Long user_no = rs.getLong(6);
-//				String reg_date = rs.getString(7);
-//				
-//				int groupNo = rs.getInt(8);
-//				int orderNo = rs.getInt(9);
-//				
-//				BoardVo vo = new BoardVo();
-//				vo.setNo(no);
-//				vo.setTitle(title);
-//				vo.setDepth(depth);
-//				vo.setHit(hit);
-//				vo.setUserName(name);
-//				vo.setUserNo(user_no);
-//				vo.setRegDate(reg_date);
-//				vo.setGroupNo(groupNo);
-//				vo.setOrderNo(orderNo);
-//				
-//				list.add(vo);
-//			}
-//			
-//		} catch (SQLException e) {
-//			System.out.println("error:" + e);
-//		} finally {
-//			try {
-//				if(rs != null) {
-//					rs.close();
-//				}
-//				if(pstmt != null) {
-//					pstmt.close();
-//				}
-//				if(conn != null) {
-//					conn.close();
-//				}
-//			} catch (SQLException e) {
-//				e.printStackTrace();
-//			}
-//		}
-//		
-//		return list;
-//	}
 
 }

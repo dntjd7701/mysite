@@ -21,42 +21,51 @@ public class ListAction implements Action {
 		HashMap<String, Integer> map = new HashMap<>();
 		
 		// 데이터의 전체 갯수 
-		int totalCount = bre.totalCount();
+		//int totalCount = bre.totalCount();
 		// 총 페이지 수 
 		int totalPage = bre.totalPage();
 
 		// 페이지에 출력하고 싶은 수 
 		int onePageCount = 5;
-		// 시작 페이지 
-		int startPage = 0;
 		// 현재 페이지 
-		String currentPage = request.getParameter("page");
+		int currentPage = 1;
 		
 		if(request.getParameter("page") != null) {
-			startPage = (Integer.parseInt(currentPage)-1) * onePageCount ;
+			currentPage = (Integer.parseInt(request.getParameter("page")));
 		}
 		
+		int startPage = (currentPage-1)*onePageCount;
+		int firstPage = 1;
+		int lastPage = currentPage+2 >= totalPage?totalPage:currentPage >= 3?currentPage+2:5;
+		
+		
+		// 왼쪽, 오른쪽
+		int prevPage = currentPage-1;
+		if(prevPage <= 1) {
+			prevPage = 1;
+		}
+		int nextPage = currentPage+1;
+		if(nextPage >= totalPage) {
+			nextPage = totalPage;
+		}
+		
+		if(totalPage == 0) {
+			lastPage = currentPage;
+		}
+		
+		map.put("currentPage", currentPage);
+		map.put("firstPage", firstPage);
+		map.put("lastPage", lastPage);
+		map.put("startPage", startPage);
+		map.put("totalPage", totalPage);
+		map.put("prevPage", prevPage);
+		map.put("nextPage", nextPage);
 		
 		List<BoardVo> list = bre.findThisPage(startPage, onePageCount);
 		
-		
 		request.setAttribute("lists", list);
-		request.setAttribute("totalPage", totalPage);
+		request.setAttribute("map", map);
 		
- 		// map에 묶어서, 넣으면됌.
-		
-//		
-//		totalPage = 
-//		firstPageNo = 3
-//		lastPageNo = 7
-//		nextPageNo  = 8
-//		prevPageNo  = 2
-//		currentPage = 4
-//		
-//		map = new request..
-//		map.put("lastPageNo",lastPageNo)
-//		
-//		request.setAttribute("pageInfo", map);
 		
 		MvcUtils.forward("board/list", request, response);
 	}

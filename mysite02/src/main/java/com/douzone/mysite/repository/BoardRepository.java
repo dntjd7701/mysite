@@ -391,6 +391,45 @@ public class BoardRepository {
 		}		
 	}
 
+	public int totalCount() {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		int totalCount = 0;
+		try {
+			conn = getConnection();
+			
+			String sql = "select count(*) from board";
+			
+			pstmt = conn.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				totalCount = rs.getInt(1);
+			}
+			
+		} catch (SQLException e) {
+			System.out.println("error:" + e);
+		} finally {
+			try {
+				if(rs != null) {
+					rs.close();
+				}
+				if(pstmt != null) {
+					pstmt.close();
+				}
+				if(conn != null) {
+					conn.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return totalCount;
+		
+	}
+
 
 
 	public int totalPage() {
@@ -499,6 +538,8 @@ public class BoardRepository {
 		
 		return list;
 	}
+
+
 
 
 }

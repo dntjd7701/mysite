@@ -35,7 +35,7 @@
 					<c:set var='count' value="${fn:length(lists) }" />
 					<c:forEach items='${lists }' var='list' varStatus='status' >			
 					<tr>
-						<td>${map.startPage+status.count }</td>
+						<td>${map.count - status.index }</td>
 						<td style="text-align:left; padding-left:${list.depth*20}px">
 							
 							<c:if test='${list.depth!=0 }'>		

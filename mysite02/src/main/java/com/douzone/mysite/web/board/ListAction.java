@@ -21,7 +21,8 @@ public class ListAction implements Action {
 		HashMap<String, Integer> map = new HashMap<>();
 		
 		// 데이터의 전체 갯수 
-		//int totalCount = bre.totalCount();
+		int totalCount = bre.totalCount();
+		
 		// 총 페이지 수 
 		int totalPage = bre.totalPage();
 
@@ -38,6 +39,7 @@ public class ListAction implements Action {
 		
 		int startPage = (currentPage-1)*onePageCount;
 		
+		int count = totalCount-startPage;
 		
 		
 		int firstPage = currentPage >= 3 ? currentPage-2 : 1;
@@ -64,6 +66,7 @@ public class ListAction implements Action {
 		map.put("totalPage", totalPage);
 		map.put("prevPage", prevPage);
 		map.put("nextPage", nextPage);
+		map.put("count", count);
 		
 		List<BoardVo> list = bre.findThisPage(startPage, onePageCount);
 		

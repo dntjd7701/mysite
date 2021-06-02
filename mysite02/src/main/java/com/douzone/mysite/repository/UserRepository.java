@@ -18,7 +18,9 @@ public class UserRepository {
 		try {
 			conn = getConnection();
 			if ("".equals(userVo.getPassword())) {
-				String sql = "update user" + " set name=?, gender=?" + " where no=?";
+				String sql = "update user" 
+						+ " set name=?, gender=?" 
+						+ " where no=?";
 
 				pstmt = conn.prepareStatement(sql);
 				pstmt.setString(1, userVo.getName());
@@ -29,7 +31,9 @@ public class UserRepository {
 				result = count == 1;
 
 			} else {
-				String sql = "update user" + " set name=?, gender=? password=?" + " where no=?";
+				String sql = "update user" 
+						+ " set name=?, gender=? password=?" 
+						+ " where no=?";
 
 				pstmt = conn.prepareStatement(sql);
 				pstmt.setString(1, userVo.getName());

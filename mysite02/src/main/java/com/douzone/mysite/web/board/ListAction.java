@@ -1,6 +1,7 @@
 package com.douzone.mysite.web.board;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -16,9 +17,32 @@ public class ListAction implements Action {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		List<BoardVo> list = new BoardRepository().findAll();
+		BoardRepository bre = new BoardRepository();
+		HashMap<String, Integer> map = new HashMap<>();
+		
+		// 데이터의 전체 갯수 
+		int totalCount = bre.totalCount();
+		// 총 페이지 수 
+		int totalPage = bre.totalPage();
+
+		// 페이지에 출력하고 싶은 수 
+		int onePageCount = 5;
+		// 시작 페이지 
+		int startPage = 0;
+		// 현재 페이지 
+		String currentPage = request.getParameter("page");
+		
+		if(request.getParameter("page") != null) {
+			startPage = (Integer.parseInt(currentPage)-1) * onePageCount ;
+		}
+		
+		
+		List<BoardVo> list = bre.findThisPage(startPage, onePageCount);
+		
 		
 		request.setAttribute("lists", list);
+		request.setAttribute("totalPage", totalPage);
+		
  		// map에 묶어서, 넣으면됌.
 		
 //		

@@ -6,11 +6,9 @@ import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import com.douzone.mysite.repository.BoardRepository;
 import com.douzone.mysite.vo.BoardVo;
-import com.douzone.mysite.vo.UserVo;
 import com.douzone.web.Action;
 import com.douzone.web.util.MvcUtils;
 
@@ -34,7 +32,7 @@ public class ViewAction implements Action {
 			vo.setContents(newlineAdapt);
 		}
 		
-	
+		new BoardRepository().upHits(matchNo);
 		request.setAttribute("viewInfos", viewInfo);
 		MvcUtils.forward("board/view", request, response);
 	}

@@ -36,9 +36,9 @@
 					<c:forEach items='${lists }' var='list' varStatus='status' >			
 					<tr>
 						<td>${count-status.index }</td>
-						<td style="text-align:left; padding-left:${list.orderNo*20}px">
+						<td style="text-align:left; padding-left:${list.depth*20}px">
 							
-							<c:if test='${list.orderNo!=0 }'>		
+							<c:if test='${list.depth!=0 }'>		
 								<img alt="" src="${pageContext.request.contextPath }/assets/images/reply.png">
 							</c:if>
 							<a href="${pageContext.request.contextPath }/board?a=view&userNo=${list.userNo}&no=${list.no}">
@@ -53,7 +53,7 @@
 						
 						<c:if test='${authUser.no == list.userNo }'>
 						<td>
-						<a href="${pageContext.request.contextPath }/board?a=delete&no=${list.no}" class="del">삭제</a>
+						<a href="${pageContext.request.contextPath }/board?a=delete&groupNo=${list.groupNo}" class="del">삭제</a>
 						</td>
 						</c:if>
 					</tr>
@@ -65,24 +65,25 @@
 				
 				
 				<!-- pager 추가 -->
+				
 				<div class="pager">
-					<ul>
-						<li><a href="">◀</a></li>
-						<li><a href ="/mysite02/board?p=1">1</a></li>
-						<li class="selected">2</li>
-						<li><a href="/mysite02/board?p=3">3</a></li>
-						<li>4</li>
-						<li>5</li>
-						<li><a href="">▶</a></li>
-					</ul>
+						<ul>
+						<c:forEach begin="${1 }" end="${totalPage }" step="${1 }" items="${totalPage }">
+							<li><a href ="${pageContext.request.contextPath }/board?page=${totalPage }">${totalPage }</a></li>
+						</c:forEach>		
+						</ul>
 				</div>					
 				<!-- pager 추가 -->
+				
+				
 				
 				<c:if test='${not empty authUser }'>
 				<div class="bottom">
 					<a href="${pageContext.request.contextPath }/board?a=writeform" id="new-book">글쓰기</a>
 				</div>
 				</c:if>
+							
+							
 								
 			</div>
 		</div>

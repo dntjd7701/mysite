@@ -14,8 +14,8 @@ public class DeleteAction implements Action {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		Long no = Long.parseLong(request.getParameter("no"));
-		new BoardRepository().delete(no);
+		int groupNo = Integer.parseInt(request.getParameter("groupNo"));
+		new BoardRepository().delete(groupNo);
 		
 		MvcUtils.redirect(request.getContextPath() + "/board", request, response);
 	}

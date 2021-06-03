@@ -69,7 +69,7 @@ public class GuestbookRepository {
 		return list;
 	}
 	
-	public boolean delete(GuestbookVo vo) {
+	public boolean delete(Long no, String password) {
 		boolean result = false;
 
 		Connection conn = null;
@@ -84,8 +84,8 @@ public class GuestbookRepository {
 					"    and password=?";
 			pstmt = conn.prepareStatement(sql);
 			
-			pstmt.setLong(1, vo.getNo());
-			pstmt.setString(2, vo.getPassword());
+			pstmt.setLong(1, no);
+			pstmt.setString(2, password);
 			
 			int count = pstmt.executeUpdate();
 			result = count == 1;

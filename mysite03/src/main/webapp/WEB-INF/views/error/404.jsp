@@ -10,10 +10,12 @@
 <title>Insert title here</title>
 </head>
 <body>
+	
+	<h1>Not Found(404) - Oooooooops! XD</h1>
+	<h4>페이지를 찾을 수 없슴똬</h4>
 
-		<h1>Sorry. Exception Occured</h1>
-		<pre>
-			${exception }
-		</pre>			
+	
+	
+	
 </body>
 </html>

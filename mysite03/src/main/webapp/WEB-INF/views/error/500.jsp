@@ -10,10 +10,10 @@
 <title>Insert title here</title>
 </head>
 <body>
-
-		<h1>Sorry. Exception Occured</h1>
-		<pre>
-			${exception }
-		</pre>			
+	<h1>Unexpected Error(Internal Server Error 500) - Oooooooooops XD</h1>
+	<p>
+		죄송합니다. 오류가 발생했습니다 ~ <br>
+		잠시 후 다시 시도해주시길 바랍니다. 
+	</p>
 </body>
 </html>

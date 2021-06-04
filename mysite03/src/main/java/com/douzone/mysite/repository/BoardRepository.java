@@ -10,6 +10,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
+import com.douzone.mysite.exception.GuestbookRepositoryException;
 import com.douzone.mysite.vo.BoardVo;
 
 @Repository
@@ -474,7 +475,7 @@ public class BoardRepository {
 		
 	}
 
-	public List<BoardVo> findThisPage(int startPage, int onePageCount) {
+	public List<BoardVo> findThisPage(int startPage, int onePageCount){
 		List<BoardVo> list = new ArrayList<>();
 		
 		Connection conn = null;
@@ -522,7 +523,7 @@ public class BoardRepository {
 			}
 			
 		} catch (SQLException e) {
-			System.out.println("error:" + e);
+			throw new GuestbookRepositoryException(e.getMessage());
 		} finally {
 			try {
 				if(rs != null) {
@@ -535,7 +536,7 @@ public class BoardRepository {
 					conn.close();
 				}
 			} catch (SQLException e) {
-				e.printStackTrace();
+				throw new GuestbookRepositoryException(e.getMessage());
 			}
 		}
 		

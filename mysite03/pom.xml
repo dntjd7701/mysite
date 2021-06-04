@@ -10,7 +10,6 @@
 	<artifactId>mysite03</artifactId>
 	<packaging>war</packaging>
 	
-	
 	<!--  설정에서는 변수라고 생각하면 된다. --> 
 	<properties>
 		<org.springframwork-version>4.3.4.RELEASE</org.springframwork-version>

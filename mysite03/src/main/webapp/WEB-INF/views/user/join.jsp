@@ -30,6 +30,7 @@
 					<label class="block-label">패스워드</label>
 					<input name="password" type="password" value="">
 					
+					
 					<fieldset>
 						<legend>성별</legend>
 						<label>여</label> <input type="radio" name="gender" value="female" checked="checked">

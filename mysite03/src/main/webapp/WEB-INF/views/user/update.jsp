@@ -18,14 +18,13 @@
 	
 		<div id="content">
 			<div id="user">
-				<form id="join-form" name="joinForm" method="post" action="${pageContext.request.contextPath }/user">
-					<input type="hidden" name="a" value="update" />
+				<form id="join-form" name="joinForm" method="post" action="${pageContext.request.contextPath }/user/update">
 					<label class="block-label" for="name">이름</label>
-					<input id="name" name="name" type="text" value="${authUser.name }">
+					<input id="name" name="name" type="text" value="${user.name }">
 
 					<label class="block-label" for="email">이메일</label>
-					<input type="hidden" name="email" value='${authUser.email }'/>
-					<h4>${authUser.email }</h4>
+					<%-- <input type="hidden" name="email" value='${authUser.email }'/> --%>
+					<h4>${user.email }</h4>
 					
 					<label class="block-label">패스워드</label>
 					<input name="password" type="password" value="">
@@ -35,7 +34,7 @@
 					<!--만약에 authUser.gender가 남이면 체크 체크,   -->
 					<!-- 잘했어.  -->
 					<c:choose>
-					<c:when test='${authUser.gender == "female" }'>
+					<c:when test='${user.gender == "female" }'>
 						<legend>성별</legend>
 						<label>여</label> <input type="radio" name="gender" value="female" checked="checked">
 						<label>남</label> <input type="radio" name="gender" value="male">

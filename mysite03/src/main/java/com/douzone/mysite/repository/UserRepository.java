@@ -14,7 +14,6 @@ public class UserRepository {
 	
 	@Autowired
 	private SqlSession sqlSession;
-//
 //	public boolean authUserUpdate(UserVo userVo) {
 //		Connection conn = null;
 //		PreparedStatement pstmt = null;
@@ -76,4 +75,13 @@ public class UserRepository {
 		return sqlSession.selectOne("user.findByEmailAndPassword", map);
 	}
 
+	public UserVo findByNo(Long no){
+		return sqlSession.selectOne("user.findByNo", no);
+		
+	}
+
+
+	public UserVo update(UserVo userVo) {
+		return sqlSession.selectOne("user.update", userVo);
+	}
 }

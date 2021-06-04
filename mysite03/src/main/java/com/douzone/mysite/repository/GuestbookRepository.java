@@ -26,8 +26,14 @@ public class GuestbookRepository {
 	
 	
 	public boolean delete(GuestbookVo vo) {
-		boolean result = false;
-		return result;		
+		int count = sqlSession.delete("guestbook.delete",vo);
+		return count == 1;		
+	}
+
+
+	public void delete(Long no, String password) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }

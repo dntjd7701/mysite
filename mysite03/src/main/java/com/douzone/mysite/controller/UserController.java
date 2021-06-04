@@ -15,88 +15,89 @@ import com.douzone.mysite.vo.UserVo;
 @Controller
 @RequestMapping("/user")
 public class UserController {
-	
+
 	@Autowired
 	private UserService userService;
-	
-	@RequestMapping(value="/join", method=RequestMethod.GET)
+
+	@RequestMapping(value = "/join", method = RequestMethod.GET)
 	public String join() {
 		return "user/join";
 	}
 
-	
-	@RequestMapping(value="/join", method=RequestMethod.POST)
+	@RequestMapping(value = "/join", method = RequestMethod.POST)
 	public String join(UserVo vo) {
 		return "redirect:/user/joinsuccess";
 	}
-	
-	@RequestMapping(value="/joinsuccess")
+
+	@RequestMapping(value = "/joinsuccess")
 	public String joinsuccess() {
 		return "user/joinsuccess";
 	}
-	
-	@RequestMapping(value="/login", method=RequestMethod.GET)
+
+	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public String login(UserVo vo) {
 		return "user/login";
 	}
-	@RequestMapping(value="/login", method=RequestMethod.POST)
-	public String login(
-						HttpSession session,
-						@RequestParam(value="email", required=true, defaultValue="") String email,
-						@RequestParam(value="password", required=true, defaultValue="") String password,
-						Model model) {
+
+	@RequestMapping(value = "/login", method = RequestMethod.POST)
+	public String login(HttpSession session,
+			@RequestParam(value = "email", required = true, defaultValue = "") String email,
+			@RequestParam(value = "password", required = true, defaultValue = "") String password, Model model) {
 		System.out.println(email + " : " + password);
 		UserVo authUser = userService.getUser(email, password);
-		
-		if(authUser == null) {
+
+		if (authUser == null) {
+
 			model.addAttribute("result", "fail");
-			model.addAttribute("email", "email");
+			model.addAttribute("email", email);
 			return "user/login";
 		}
-		//auth 처리 
-		
+		// auth 처리
+
 		session.setAttribute("authUser", authUser);
 		return "redirect:/";
 	}
+
 	@RequestMapping("/logout")
 	public String logout(HttpSession session) {
-		UserVo authUser = (UserVo)session.getAttribute("authUser");
-		if(authUser == null) {
+		UserVo authUser = (UserVo) session.getAttribute("authUser");
+		if (authUser == null) {
 			return "redirect:/";
 		}
-		
+
 		session.removeAttribute("authUser");
 		session.invalidate();
-		
+
 		return "redirect:/";
 	}
-	@RequestMapping(value="/update", method=RequestMethod.GET)
+
+	@RequestMapping(value = "/update", method = RequestMethod.GET)
 	public String update(HttpSession session, Model model) {
-		
-		UserVo authUser = (UserVo)session.getAttribute("authUser");
-		if(authUser == null) {
+
+		UserVo authUser = (UserVo) session.getAttribute("authUser");
+		if (authUser == null) {
 			return "redirect:/";
 		}
-		
+
 		Long no = authUser.getNo();
 		UserVo userVo = userService.getUser(no);
 
 		model.addAttribute("user", userVo);
 		return "user/update";
 	}
-	
-	@RequestMapping(value="/update", method=RequestMethod.POST)
+
+	@RequestMapping(value = "/update", method = RequestMethod.POST)
 	public String update(HttpSession session, UserVo userVo) {
-		
-		UserVo authUser = (UserVo)session.getAttribute("authUser");
-		if(authUser == null) {
+
+		UserVo authUser = (UserVo) session.getAttribute("authUser");
+		if (authUser == null) {
 			return "redirect:/";
 		}
-		
+
 		userVo.setNo(authUser.getNo());
 		userService.updateUser(userVo);
 		authUser.setName(userVo.getName());
-		
+
 		return "redirect:/user/update";
 	}
 }

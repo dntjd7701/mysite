@@ -25,7 +25,7 @@
 			limit #{startPage}, #{onePageCount}
 		]]>
 	</select>
-	<select id="findByViewInfo" parameterType="integer" resultType="boardvo" >
+	<select id="findByViewInfo" parameterType="long" resultType="boardvo" >
 		<![CDATA[
 		select no, title, contents, hit, user_no
 			from board
@@ -40,7 +40,13 @@
 	</select>
 	
 	
-	
+	<update id="upHits" parameterType="long" >
+		<![CDATA[
+			update board
+				set hit=hit+1
+				where no=#{no}
+		]]>
+	</update>
 	
 	
 	

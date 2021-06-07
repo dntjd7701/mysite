@@ -127,8 +127,16 @@ public class BoardController {
 	}
 	
 	@RequestMapping(value="/view/{no}", method=RequestMethod.GET)
-	public String view(@PathVariable("no") int no, Model model) {
+	public String view(@PathVariable("no") Long no, Model model) {
 		 List<BoardVo> viewInfos = boardService.viewList(no);
+		 
+		 for(BoardVo vo : viewInfos) {
+			 String content = vo.getContents();
+			 String newlineAdapt = content.replaceAll("\r\n", "<br/>");
+			 vo.setContents(newlineAdapt);
+		 }
+		 
+		 boardService.updateHit(no);
 		 model.addAttribute("viewInfos",viewInfos);
 		return "board/view";
 	}

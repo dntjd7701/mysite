@@ -35,7 +35,7 @@ public class BoardService {
 	}
 
 
-	public  List<BoardVo> viewList(int no) {
+	public  List<BoardVo> viewList(Long no) {
 		return boardRepository.findByViewInfo(no);
 	}
 
@@ -47,5 +47,10 @@ public class BoardService {
 
 	public int findMaxGroupNo() {
 		return boardRepository.maxGroupNo();
+	}
+
+
+	public void updateHit(Long no) {
+		boardRepository.upHits(no);
 	}
 }

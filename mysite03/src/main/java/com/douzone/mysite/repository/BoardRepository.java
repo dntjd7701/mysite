@@ -181,41 +181,7 @@ public class BoardRepository {
 
 
 
-	public void upHits(Long matchNo) {
-		Connection conn = null;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		try {
-			conn = getConnection();
-			
-			String sql = "update board"
-					+ " set hit=hit+1"
-					+ " where no=?";
-				pstmt = conn.prepareStatement(sql);
-				
-				pstmt.setLong(1, matchNo);
-			
-				pstmt.executeUpdate();
-			
-			
-		} catch (SQLException e) {
-			System.out.println("error:" + e);
-		} finally {
-			try {if(rs != null) {
-					rs.close();
-				}	
-				if(pstmt != null) {
-					pstmt.close();
-				}
-				if(conn != null) {
-					conn.close();
-				}
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}		
-	}
-
+	
 	public int totalCount() {
 		return sqlSession.selectOne("board.totalCount");
 	}
@@ -234,7 +200,7 @@ public class BoardRepository {
 		return count==1;		
 	}
 
-	public List<BoardVo> findByViewInfo(int no){
+	public List<BoardVo> findByViewInfo(Long no){
 		return sqlSession.selectList("board.findByViewInfo", no);
 	}
 	
@@ -244,10 +210,13 @@ public class BoardRepository {
 	
 	
 	public boolean insert(BoardVo vo) {
-		int count = sqlSession.insert("board.inser");
+		int count = sqlSession.insert("board.insert");
 		return count == 1;
 	}
 
+	public void upHits(Long matchNo) {
+		sqlSession.update("board.upHits", matchNo);
+	}
 
 
 }

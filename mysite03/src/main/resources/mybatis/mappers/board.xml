@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="board">
+	<select id="totalCount" resultType="INT">
+		<![CDATA[
+			select count(*) from board
+		]]>
+	</select>
+	
+	
+	<select id="totalPage" resultType="INT">
+		<![CDATA[
+			select ceil(count(*)/5) from board
+		]]>
+	</select>
+
+
+
+	<select id="findThisPage" parameterType="map" resultType="boardvo" >
+		<![CDATA[
+		select b.no, b.title, b.hit, u.name,
+					 b.user_no, date_format(reg_date, '%Y/%m/%d %H:%i:%s') as regDate,
+					 b.order_no, b.depth
+			from user u, board b
+			where b.user_no=u.no
+			order by group_no DESC, order_no asc
+			limit #{startPage}, #{onePageCount}
+		]]>
+	</select>
+</mapper>

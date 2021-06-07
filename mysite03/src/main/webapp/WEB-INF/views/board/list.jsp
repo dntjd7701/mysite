@@ -41,7 +41,8 @@
 							<c:if test='${list.depth!=0 }'>		
 								<img alt="" src="${pageContext.request.contextPath }/assets/images/reply.png">
 							</c:if>
-							<a href="${pageContext.request.contextPath }/board?a=view&userNo=${list.userNo}&no=${list.no}">
+							<a href="${pageContext.request.contextPath }/board/view?
+							userNo=${list.userNo}&no=${list.no}">
 							${list.title }
 							</a>
 						
@@ -53,7 +54,7 @@
 						
 						<c:if test='${authUser.no == list.userNo }'>
 						<td>
-						<a href="${pageContext.request.contextPath }/board?a=delete&groupNo=${list.groupNo}" class="del" style='background-image:url("${pageContext.request.contextPath }/assets/images/recycle.png")'>삭제</a>
+						<a href="${pageContext.request.contextPath }/board/delete?groupNo=${list.groupNo}" class="del" style='background-image:url("${pageContext.request.contextPath }/assets/images/recycle.png")'>삭제</a>
 						</td>
 						</c:if>
 					</tr>
@@ -69,22 +70,22 @@
 				<div class="pager">
 					<ul>
 							<c:if test="${map.currentPage!=1 }">
-								<li><a href ="${pageContext.request.contextPath }/board?page=${1}">≪</a></li>
+								<li><a href ="${pageContext.request.contextPath }/board/${1}">≪</a></li>
 							</c:if>	
 							<c:if test="${map.currentPage!=1 }">
-								<li><a href ="${pageContext.request.contextPath }/board?page=${map.prevPage}">＜</a></li>
+								<li><a href ="${pageContext.request.contextPath }/board/${map.prevPage}">＜</a></li>
 							</c:if>	
 								
 									<c:forEach begin="${map.firstPage }" end="${map.lastPage }" step="1" varStatus="status" var="sel">
-										<li  <c:if test="${map.currentPage==sel }"> class="selected" </c:if> ><a href ="${pageContext.request.contextPath }/board?page=${(status.count-1)+map.firstPage }">${(status.count-1)+map.firstPage }</a></li>
+										<li  <c:if test="${map.currentPage==sel }"> class="selected" </c:if> ><a href ="${pageContext.request.contextPath }/board/${(status.count-1)+map.firstPage }">${(status.count-1)+map.firstPage }</a></li>
 									</c:forEach>
 									
 							
 							<c:if test="${map.currentPage<map.totalPage }">
-								<li><a href ="${pageContext.request.contextPath }/board?page=${map.nextPage }">＞</a></li>
+								<li><a href ="${pageContext.request.contextPath }/board/${map.nextPage }">＞</a></li>
 							</c:if>		
 							<c:if test="${map.currentPage<map.totalPage }">
-								<li><a href ="${pageContext.request.contextPath }/board?page=${map.totalPage }">≫</a></li>
+								<li><a href ="${pageContext.request.contextPath }/board/${map.totalPage }">≫</a></li>
 							</c:if>		
 					</ul>
 				</div>					

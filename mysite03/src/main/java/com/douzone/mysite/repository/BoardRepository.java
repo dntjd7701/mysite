@@ -6,15 +6,19 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
+import org.apache.ibatis.session.SqlSession;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.douzone.mysite.exception.GuestbookRepositoryException;
 import com.douzone.mysite.vo.BoardVo;
 
 @Repository
 public class BoardRepository {
+	@Autowired
+	private SqlSession sqlSession;
 	
 	private Connection getConnection() throws SQLException {
 		Connection conn = null;
@@ -396,154 +400,24 @@ public class BoardRepository {
 	}
 
 	public int totalCount() {
-		Connection conn = null;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		int totalCount = 0;
-		try {
-			conn = getConnection();
-			
-			String sql = "select count(*) from board";
-			
-			pstmt = conn.prepareStatement(sql);
-			rs = pstmt.executeQuery();
-			
-			while(rs.next()) {
-				totalCount = rs.getInt(1);
-			}
-			
-		} catch (SQLException e) {
-			System.out.println("error:" + e);
-		} finally {
-			try {
-				if(rs != null) {
-					rs.close();
-				}
-				if(pstmt != null) {
-					pstmt.close();
-				}
-				if(conn != null) {
-					conn.close();
-				}
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
-		
-		return totalCount;
-		
+		return sqlSession.selectOne("board.totalCount");
 	}
 
 
 
 	public int totalPage() {
-		Connection conn = null;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		int totalPage = 0;
-		try {
-			conn = getConnection();
-			
-			String sql = "select ceil(count(*)/5) from board";
-			
-			pstmt = conn.prepareStatement(sql);
-			rs = pstmt.executeQuery();
-			
-			while(rs.next()) {
-				totalPage = rs.getInt(1);
-			}
-			
-		} catch (SQLException e) {
-			System.out.println("error:" + e);
-		} finally {
-			try {
-				if(rs != null) {
-					rs.close();
-				}
-				if(pstmt != null) {
-					pstmt.close();
-				}
-				if(conn != null) {
-					conn.close();
-				}
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
 		
-		return totalPage;
+		return sqlSession.selectOne("board.totalPage");
 		
 	}
 
-	public List<BoardVo> findThisPage(int startPage, int onePageCount){
-		List<BoardVo> list = new ArrayList<>();
+	
+	
+	
+	public List<BoardVo> findThisPage(HashMap<String, Integer> map){
 		
-		Connection conn = null;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-				
-		try {
-			conn = getConnection();
-			
-			String sql ="select b.no, b.title, b.hit, u.name,"
-					+ " b.user_no, date_format(reg_date, '%Y/%m/%d %H:%i:%s') as reg_date,"
-					+ " b.order_no, b.depth"
-					+ " from user u, board b"
-					+ " where b.user_no=u.no"
-					+ " order by group_no DESC, order_no asc"
-					+ " limit ?, ?";
-			// 5개씩 보여줄 예정, 
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, startPage);
-			pstmt.setInt(2, onePageCount);
-			rs = pstmt.executeQuery();
-			
-			while(rs.next()) {
-				Long no = rs.getLong(1);
-				String title = rs.getString(2);
-				int hit = rs.getInt(3);
-				String name = rs.getString(4);
-				Long user_no = rs.getLong(5);
-				String reg_date = rs.getString(6);
-				int order_no = rs.getInt(7);
-				int depth = rs.getInt(8);
-				
-				BoardVo vo = new BoardVo();
-				vo.setNo(no);
-				vo.setTitle(title);
-				vo.setHit(hit);
-				vo.setUserName(name);
-				vo.setUserNo(user_no);
-				vo.setRegDate(reg_date);
-				vo.setOrderNo(order_no);
-				vo.setDepth(depth);
-				
-				
-				list.add(vo);
-			}
-			
-		} catch (SQLException e) {
-			throw new GuestbookRepositoryException(e.getMessage());
-		} finally {
-			try {
-				if(rs != null) {
-					rs.close();
-				}
-				if(pstmt != null) {
-					pstmt.close();
-				}
-				if(conn != null) {
-					conn.close();
-				}
-			} catch (SQLException e) {
-				throw new GuestbookRepositoryException(e.getMessage());
-			}
-		}
-		
-		return list;
+		return sqlSession.selectList("board.findThisPage", map);
 	}
-
-
 
 
 }

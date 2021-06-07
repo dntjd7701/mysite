@@ -11,6 +11,38 @@
 	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
+
+	<!-- Interceptors  -->
+	<mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path="/user/auth"/>
+			<bean class="com.douzone.mysite.security.LoginInterceptor"/>
+		</mvc:interceptor>
+	</mvc:interceptors>
+	
+	
+	<mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path="/user/logout"/>
+			<bean class="com.douzone.mysite.security.LogoutInterceptor"/>
+		</mvc:interceptor>
+	</mvc:interceptors>
+	
+	
+	<!-- 위에 둘 제외 + assets 애들 하고 나머지 다~ 검사   -->
+	<mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path="/**"/>
+			<mvc:exclude-mapping path="/user/auth"/>
+			<mvc:exclude-mapping path="/user/logout"/>
+			<mvc:exclude-mapping path="/assets/**"/>
+			<bean class="com.douzone.mysite.security.AuthInterceptor"/>
+		</mvc:interceptor>
+	</mvc:interceptors>
+	
+	
+	
+	
 		 
 	<!--ViewResolver 설정 --> 
 	<bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">

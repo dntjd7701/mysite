@@ -9,8 +9,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.douzone.mysite.security.Auth;
 import com.douzone.mysite.service.UserService;
 import com.douzone.mysite.vo.UserVo;
+
+
 
 @Controller
 @RequestMapping("/user")
@@ -71,9 +74,10 @@ public class UserController {
 		return "redirect:/";
 	}
 
+	@Auth(role="ADMIN", test=true)
 	@RequestMapping(value = "/update", method = RequestMethod.GET)
 	public String update(HttpSession session, Model model) {
-
+		// 접근 제어 
 		UserVo authUser = (UserVo) session.getAttribute("authUser");
 		if (authUser == null) {
 			return "redirect:/";
@@ -85,7 +89,8 @@ public class UserController {
 		model.addAttribute("user", userVo);
 		return "user/update";
 	}
-
+	
+	@Auth
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
 	public String update(HttpSession session, UserVo userVo) {
 

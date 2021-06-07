@@ -7,6 +7,8 @@ import javax.servlet.http.HttpSession;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
+import com.douzone.mysite.vo.UserVo;
+
 public class AuthInterceptor extends HandlerInterceptorAdapter {
 
 	@Override
@@ -29,16 +31,24 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 		
 		
 		// 4. Handler Mehtod에 @Auth가 없다.
+		// 전체로 하려면, handlerClass에서 찾는거 메소드가 있음. 
+		// 그걸 찾아야함 
 		if(auth == null) {
 			return true;
 		}
 		
 		// 5. @Auth가 붙어 있기 때문에 (Authentification) 여부 확인 
 		HttpSession session = request.getSession();
-		UserVo authUser = session.getAttribute("authUser");
+		if(session == null) {
+			response.sendRedirect(request.getContextPath()+ "/user/login");
+			return false;
+		}
+		
+		UserVo authUser = (UserVo)session.getAttribute("authUser");
 		
 		if(authUser == null) {
-			response.sendRedirect(request.getContextPath()+ "/login");
+			response.sendRedirect(request.getContextPath()+ "/user/login");
+			return false;
 		}
 		
 		// 조건절 따져보고 맞으면 뒤에 handler 실행시켜 ~

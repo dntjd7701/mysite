@@ -28,4 +28,24 @@ public class BoardService {
 	public int getTotalPage() {
 		return boardRepository.totalPage();
 	}
+
+
+	public void deleteList(int groupNo) {
+		boardRepository.delete(groupNo);
+	}
+
+
+	public  List<BoardVo> viewList(int no) {
+		return boardRepository.findByViewInfo(no);
+	}
+
+
+	public void writeList(BoardVo vo) {
+		boardRepository.insert(vo); 
+	}
+
+
+	public int findMaxGroupNo() {
+		return boardRepository.maxGroupNo();
+	}
 }

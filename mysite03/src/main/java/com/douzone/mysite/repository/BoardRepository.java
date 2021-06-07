@@ -5,7 +5,6 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -35,194 +34,12 @@ public class BoardRepository {
 	
 	
 
-	public int maxGroupNo() {
-
-		Connection conn = null;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		int maxGroupNo = 0;
-		try {
-			conn = getConnection();
-			
-			String sql = "select max(group_no) from board";
-			pstmt = conn.prepareStatement(sql);
-			
-			rs = pstmt.executeQuery();
-			
-			while(rs.next()) {
-				maxGroupNo = rs.getInt(1);
-			}
-			
-			
-			
-			
-		} catch (SQLException e) {
-			System.out.println("error:" + e);
-		} finally {
-			try {
-				if(rs != null) {
-					rs.close();
-				}
-				if(pstmt != null) {
-					pstmt.close();
-				}
-				if(conn != null) {
-					conn.close();
-				}
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
-		return maxGroupNo;
-	}
-	
-	
-	
-	
-	public boolean insert(BoardVo vo) {
-		boolean result = false;
-
-		Connection conn = null;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		try {
-			conn = getConnection();
-			
-			String sql = "insert" 
-						+ " into board" 
-						+ " values (null, ?, ?, now(), 0,"
-						+ " ? , ?, ?, ?)";
-				pstmt = conn.prepareStatement(sql);
-				
-				pstmt.setString(1, vo.getTitle());
-				pstmt.setString(2, vo.getContents());
-				pstmt.setInt(3, vo.getGroupNo());
-				pstmt.setInt(4, vo.getOrderNo());
-				pstmt.setInt(5, vo.getDepth());
-				pstmt.setLong(6, vo.getUserNo());
-		
-		
-			
-			int count = pstmt.executeUpdate();
-			result = count == 1;
-			
-		} catch (SQLException e) {
-			System.out.println("error:" + e);
-		} finally {
-			try {if(rs != null) {
-					rs.close();
-				}	
-				if(pstmt != null) {
-					pstmt.close();
-				}
-				if(conn != null) {
-					conn.close();
-				}
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}		
-		
-		return result;
-	}
-
 
 	
-	public boolean delete(int groupNo) {
-		boolean result = false;
-
-		Connection conn = null;
-		PreparedStatement pstmt = null;
-		try {
-			conn = getConnection();
-			
-			String sql =
-					" delete" +
-					"  from board" +
-					"  where group_no=?";
-			pstmt = conn.prepareStatement(sql);
-			
-			pstmt.setLong(1, groupNo);
-			
-			int count = pstmt.executeUpdate();
-			result = count == 1;
-			
-		} catch (SQLException e) {
-			System.out.println("error:" + e);
-		} finally {
-			try {
-				if(pstmt != null) {
-					pstmt.close();
-				}
-				if(conn != null) {
-					conn.close();
-				}
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}		
-		
-		return result;		
-	}
-
-
-
-	public List<BoardVo> findByViewInfo(Long matchNo){
-	List<BoardVo> list = new ArrayList<>();
 	
-	Connection conn = null;
-	PreparedStatement pstmt = null;
-	ResultSet rs = null;
-			
-	try {
-		conn = getConnection();
-		
-		String sql = "select no, title, contents, hit, user_no"
-				+ " from board"
-				+ " where no=?";
-		
-		pstmt = conn.prepareStatement(sql);
-		pstmt.setLong(1, matchNo);
-		
-		rs = pstmt.executeQuery();
-		
-		while(rs.next()) {
-			Long no = rs.getLong(1);
-			String title = rs.getString(2);
-			String contents = rs.getString(3);
-			int hit = rs.getInt(4);
-			Long user_no = rs.getLong(5);
-			
-			BoardVo vo = new BoardVo();
-			vo.setNo(no);
-			vo.setTitle(title);
-			vo.setContents(contents);
-			vo.setHit(hit);
-			vo.setUserNo(user_no);
-			
-			list.add(vo);
-		}
-		
-	} catch (SQLException e) {
-		System.out.println("error:" + e);
-	} finally {
-		try {
-			if(rs != null) {
-				rs.close();
-			}
-			if(pstmt != null) {
-				pstmt.close();
-			}
-			if(conn != null) {
-				conn.close();
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}
+
 	
-	return list;
-	}
+	
 
 
 
@@ -403,21 +220,34 @@ public class BoardRepository {
 		return sqlSession.selectOne("board.totalCount");
 	}
 
-
-
 	public int totalPage() {
-		
 		return sqlSession.selectOne("board.totalPage");
-		
 	}
 
-	
-	
 	
 	public List<BoardVo> findThisPage(HashMap<String, Integer> map){
-		
 		return sqlSession.selectList("board.findThisPage", map);
 	}
+	
+	public boolean delete(int groupNo) {
+		int count = sqlSession.delete("board.delete", groupNo);
+		return count==1;		
+	}
+
+	public List<BoardVo> findByViewInfo(int no){
+		return sqlSession.selectList("board.findByViewInfo", no);
+	}
+	
+	public int maxGroupNo() {
+		return sqlSession.selectOne("board.maxGroupNo");
+	}
+	
+	
+	public boolean insert(BoardVo vo) {
+		int count = sqlSession.insert("board.inser");
+		return count == 1;
+	}
+
 
 
 }

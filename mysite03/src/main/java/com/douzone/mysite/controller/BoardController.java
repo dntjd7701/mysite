@@ -10,8 +10,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.douzone.mysite.security.AuthUser;
 import com.douzone.mysite.service.BoardService;
 import com.douzone.mysite.vo.BoardVo;
+import com.douzone.mysite.vo.UserVo;
 
 @Controller
 @RequestMapping("/board")
@@ -124,7 +126,60 @@ public class BoardController {
 		return "board/list";
 	}
 	
+	@RequestMapping(value="/view/{no}", method=RequestMethod.GET)
+	public String view(@PathVariable("no") int no, Model model) {
+		 List<BoardVo> viewInfos = boardService.viewList(no);
+		 model.addAttribute("viewInfos",viewInfos);
+		return "board/view";
+	}
 	
+	
+	@RequestMapping(value="/write", method=RequestMethod.GET)
+	public String write() {
+		return "board/write";
+	}
+	
+
+	@RequestMapping(value="/writesuccess", method=RequestMethod.POST)
+	public String write(@AuthUser UserVo authUser,BoardVo vo) {
+		System.out.println(vo.getTitle());
+		System.out.println(vo.getContents());
+		System.out.println(vo.getGroupNo());
+		
+		String title = vo.getTitle();
+		String contents = vo.getContents();
+		int maxGNo = boardService.findMaxGroupNo();
+		
+		
+		BoardVo newVo = new BoardVo();
+		newVo.setTitle(title);
+		newVo.setContents(contents);
+		newVo.setGroupNo(maxGNo+1);
+		newVo.setOrderNo(0);
+		newVo.setDepth(0);
+		newVo.setUserNo(authUser.getNo());
+		
+		
+		boardService.writeList(vo);
+		return "redirect:/board";
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	@RequestMapping(value="/delete/{groupNo}", method=RequestMethod.GET)
+	public String delete(@PathVariable("groupNo") int groupNo, @AuthUser UserVo authUser, Model model) {
+		
+		boardService.deleteList(groupNo);
+		return "redirect:/board";
+	}
 	
 	
 	

@@ -41,8 +41,7 @@
 							<c:if test='${list.depth!=0 }'>		
 								<img alt="" src="${pageContext.request.contextPath }/assets/images/reply.png">
 							</c:if>
-							<a href="${pageContext.request.contextPath }/board/view?
-							userNo=${list.userNo}&no=${list.no}">
+							<a href="${pageContext.request.contextPath }/board/view/${list.no}">
 							${list.title }
 							</a>
 						
@@ -54,7 +53,7 @@
 						
 						<c:if test='${authUser.no == list.userNo }'>
 						<td>
-						<a href="${pageContext.request.contextPath }/board/delete?groupNo=${list.groupNo}" class="del" style='background-image:url("${pageContext.request.contextPath }/assets/images/recycle.png")'>삭제</a>
+						<a href="${pageContext.request.contextPath }/board/delete/${list.groupNo}" class="del" style='background-image:url("${pageContext.request.contextPath }/assets/images/recycle.png")'>삭제</a>
 						</td>
 						</c:if>
 					</tr>
@@ -95,7 +94,7 @@
 				
 				<c:if test='${not empty authUser }'>
 				<div class="bottom">
-					<a href="${pageContext.request.contextPath }/board?a=writeform" id="new-book">글쓰기</a>
+					<a href="${pageContext.request.contextPath }/board/write" id="new-book">글쓰기</a>
 				</div>
 				</c:if>
 							

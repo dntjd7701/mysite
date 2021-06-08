@@ -32,14 +32,6 @@ public class BoardRepository {
 		return conn;
 	}	
 	
-	
-
-
-	
-	
-
-	
-	
 
 
 

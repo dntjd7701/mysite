@@ -30,14 +30,26 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 		Auth auth = handlerMethod.getMethodAnnotation(Auth.class);
 		
 		
-		// 4. Handler Mehtod에 @Auth가 없다.
+		// 4. Handler Mehtod에 @Auth가 없으면 Type에 붙어 있는지 확인한다.(과제)
+		
+		/**		과제 
+		 * if(auth == null){
+		 * 		auth = handlerMethod.?
+		 * }
+		 * 
+		 *		>> Handler Method에 있음.   
+		 */
+		
+		
+		// 5. Type 이나 Method 둘 다 @Auth가 적용이 안되어 있는 경우. 
+		// 이건 진짜 guestbook 같은거 ㅇㅇ 
 		// 전체로 하려면, handlerClass에서 찾는거 메소드가 있음. 
 		// 그걸 찾아야함 
 		if(auth == null) {
 			return true;
 		}
 		
-		// 5. @Auth가 붙어 있기 때문에 (Authentification) 여부 확인 
+		// 6. @Auth가 붙어 있기 때문에 (Authentification) 여부 확인 
 		HttpSession session = request.getSession();
 		if(session == null) {
 			response.sendRedirect(request.getContextPath()+ "/user/login");
@@ -46,12 +58,33 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 		
 		UserVo authUser = (UserVo)session.getAttribute("authUser");
 		
+		
 		if(authUser == null) {
 			response.sendRedirect(request.getContextPath()+ "/user/login");
 			return false;
 		}
 		
+		
+		
 		// 조건절 따져보고 맞으면 뒤에 handler 실행시켜 ~
+		
+		// 7.Authorization(권한) Check, @Auth의 role 가져오기("ADMIN" or "USER")
+		String role = auth.role();
+		
+		// role과 authUser.getRole을 비교. 
+		String authRole = authUser.getRole();
+		
+		// 단, admin으로 로그인되어있을경우에는 다 들어갈 수 있어야함. 
+		
+		// 비교해서 admin page로 보내기 ~ 
+		if("ADMIN".equals(role)) {
+			
+		}
+		
+		
+		
+		
+		
 		return true;
 	}
 

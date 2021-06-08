@@ -54,17 +54,17 @@
 		<![CDATA[
 			delete
 				from board
-				where group_no=#{value};
+				where group_no=#{value}
 		]]>
 	</delete>
 	
 	
-	<insert id="insert">
+	<insert id="insert" parameterType="boardvo">
 		<![CDATA[
 			insert
 				into board
-				values (null, #{title}, #{contents}, now(), 0, #{groupNo}, #{orderNo}, #{depth}, #{userNo})
-		]]>
+				values (null, #{title }, #{contents }, now(), 0, #{groupNo }, #{orderNo }, #{depth }, #{userNo } )
+			]]>	
 	</insert>
 	
 </mapper>

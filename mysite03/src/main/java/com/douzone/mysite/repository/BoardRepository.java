@@ -210,7 +210,7 @@ public class BoardRepository {
 	
 	
 	public boolean insert(BoardVo vo) {
-		int count = sqlSession.insert("board.insert");
+		int count = sqlSession.insert("board.insert", vo);
 		return count == 1;
 	}
 

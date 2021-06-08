@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.douzone.mysite.security.Auth;
 import com.douzone.mysite.security.AuthUser;
 import com.douzone.mysite.service.BoardService;
 import com.douzone.mysite.vo.BoardVo;
@@ -141,43 +142,40 @@ public class BoardController {
 		return "board/view";
 	}
 	
-	
+	@Auth
 	@RequestMapping(value="/write", method=RequestMethod.GET)
-	public String write() {
+	public String write(@AuthUser UserVo authUser, Model model) {
 		return "board/write";
 	}
 	
-
+	@Auth
 	@RequestMapping(value="/writesuccess", method=RequestMethod.POST)
-	public String write(@AuthUser UserVo authUser,BoardVo vo) {
-		System.out.println(vo.getTitle());
-		System.out.println(vo.getContents());
-		System.out.println(vo.getGroupNo());
+	public String write(@AuthUser UserVo authUser, BoardVo vo) {
 		
 		String title = vo.getTitle();
-		String contents = vo.getContents();
-		int maxGNo = boardService.findMaxGroupNo();
+		String content = vo.getContents();
+		Long userNo = authUser.getNo();
 		
+		System.out.println(authUser.getName());
+		if("".equals(title) || "".equals(content)) {
+			return "redirect:/board/write";
+		}
+		
+		int maxGNo = boardService.findMaxGroupNo();
 		
 		BoardVo newVo = new BoardVo();
 		newVo.setTitle(title);
-		newVo.setContents(contents);
+		newVo.setContents(content);
 		newVo.setGroupNo(maxGNo+1);
 		newVo.setOrderNo(0);
 		newVo.setDepth(0);
-		newVo.setUserNo(authUser.getNo());
+		newVo.setUserNo(userNo);
+		newVo.setUserName(authUser.getName());
 		
-		
+		System.out.println(newVo);
 		boardService.writeList(vo);
 		return "redirect:/board";
 	}
-	
-	
-	
-	
-	
-	
-	
 	
 	
 	

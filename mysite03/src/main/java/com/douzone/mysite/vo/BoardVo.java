@@ -9,9 +9,11 @@ public class BoardVo {
 	private int groupNo;
 	private int orderNo;
 	private int depth;
-	
 	private Long userNo;
 	private String userName;
+	
+	
+	
 	public Long getNo() {
 		return no;
 	}
@@ -73,6 +75,13 @@ public class BoardVo {
 		this.userName = userName;
 	}
 	
+	
+	@Override
+	public String toString() {
+		return "BoardVo [no=" + no + ", title=" + title + ", contents=" + contents + ", regDate=" + regDate + ", hit="
+				+ hit + ", groupNo=" + groupNo + ", orderNo=" + orderNo + ", depth=" + depth + ", userNo=" + userNo
+				+ ", userName=" + userName + "]";
+	}
 	
 	
 	

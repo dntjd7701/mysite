@@ -18,7 +18,7 @@
 		<![CDATA[
 		select b.no, b.title, b.hit, u.name,
 					 b.user_no, date_format(reg_date, '%Y/%m/%d %H:%i:%s') as regDate,
-					 b.order_no, b.depth
+					 b.order_no, b.depth, b.group_no 
 			from user u, board b
 			where b.user_no=u.no
 			order by group_no DESC, order_no asc
@@ -49,16 +49,6 @@
 	</update>
 	
 	
-	
-	<delete id="delete" parameterType="integer">
-		<![CDATA[
-			delete
-				from board
-				where group_no=#{value}
-		]]>
-	</delete>
-	
-	
 	<insert id="insert" parameterType="boardvo">
 		<![CDATA[
 			insert
@@ -66,5 +56,14 @@
 				values (null, #{title }, #{contents }, now(), 0, #{groupNo }, #{orderNo }, #{depth }, #{userNo } )
 			]]>	
 	</insert>
+	
+	
+	<delete id="delete" parameterType="integer">
+		<![CDATA[
+			delete
+				from board
+				where group_no=#{groupNo}
+		]]>
+	</delete>
 	
 </mapper>

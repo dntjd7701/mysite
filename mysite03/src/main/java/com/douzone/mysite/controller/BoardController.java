@@ -173,15 +173,13 @@ public class BoardController {
 		newVo.setUserName(authUser.getName());
 		
 		System.out.println(newVo);
-		boardService.writeList(vo);
+		boardService.writeList(newVo);
 		return "redirect:/board";
 	}
 	
 	
-	
-	
 	@RequestMapping(value="/delete/{groupNo}", method=RequestMethod.GET)
-	public String delete(@PathVariable("groupNo") int groupNo, @AuthUser UserVo authUser, Model model) {
+	public String delete(@PathVariable("groupNo") int groupNo) {
 		
 		boardService.deleteList(groupNo);
 		return "redirect:/board";

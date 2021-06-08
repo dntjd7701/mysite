@@ -52,9 +52,9 @@
 						<td>${list.regDate }</td>
 						
 						<c:if test='${authUser.no == list.userNo }'>
-						<td>
-						<a href="${pageContext.request.contextPath }/board/delete/${list.groupNo}" class="del" style='background-image:url("${pageContext.request.contextPath }/assets/images/recycle.png")'>삭제</a>
-						</td>
+							<td>
+							<a href="${pageContext.request.contextPath }/board/delete/${list.groupNo}" class="del" style='background-image:url("${pageContext.request.contextPath }/assets/images/recycle.png")'>삭제</a>
+							</td>
 						</c:if>
 					</tr>
 					</c:forEach>

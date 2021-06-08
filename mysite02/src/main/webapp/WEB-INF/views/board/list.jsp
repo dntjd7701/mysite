@@ -53,7 +53,7 @@
 						
 						<c:if test='${authUser.no == list.userNo }'>
 						<td>
-						<a href="${pageContext.request.contextPath }/board?a=delete&groupNo=${list.groupNo}" class="del">삭제</a>
+						<a href="${pageContext.request.contextPath }/board?a=delete&no=${list.no}" class="del">삭제</a>
 						</td>
 						</c:if>
 					</tr>

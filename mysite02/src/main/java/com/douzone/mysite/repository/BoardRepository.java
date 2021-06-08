@@ -120,7 +120,7 @@ public class BoardRepository {
 
 
 	
-	public boolean delete(int groupNo) {
+	public boolean delete(Long no) {
 		boolean result = false;
 
 		Connection conn = null;
@@ -131,10 +131,10 @@ public class BoardRepository {
 			String sql =
 					" delete" +
 					"  from board" +
-					"  where group_no=?";
+					"  where no=?";
 			pstmt = conn.prepareStatement(sql);
 			
-			pstmt.setLong(1, groupNo);
+			pstmt.setLong(1, no);
 			
 			int count = pstmt.executeUpdate();
 			result = count == 1;

@@ -1,10 +1,5 @@
 package com.douzone.mysite.repository;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 
@@ -19,159 +14,15 @@ public class BoardRepository {
 	@Autowired
 	private SqlSession sqlSession;
 	
-	private Connection getConnection() throws SQLException {
-		Connection conn = null;
-		try {
-			Class.forName("org.mariadb.jdbc.Driver");
-			String url = "jdbc:mysql://localhost:3306/webdb?characterEncoding=utf8";
-			conn = DriverManager.getConnection(url, "webdb", "webdb");
-		} catch (ClassNotFoundException e) {
-			System.out.println("드라이버 로딩 실패:" + e);
-		} 
-		
-		return conn;
-	}	
-	
-
-
 
 	public boolean UpdateTitleAndContent(Long no, String modifiedTitle, String modifiedContent) {
-		boolean result = false;
-
-		Connection conn = null;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		try {
-			conn = getConnection();
-			
-			String sql = "update board"
-					+ " set title=?, contents=?"
-					+ " where no=?";
-				pstmt = conn.prepareStatement(sql);
-				
-				pstmt.setString(1, modifiedTitle);
-				pstmt.setString(2, modifiedContent);
-				pstmt.setLong(3, no);
-		
-			
-			int count = pstmt.executeUpdate();
-			result = count == 1;
-			
-		} catch (SQLException e) {
-			System.out.println("error:" + e);
-		} finally {
-			try {if(rs != null) {
-					rs.close();
-				}	
-				if(pstmt != null) {
-					pstmt.close();
-				}
-				if(conn != null) {
-					conn.close();
-				}
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}		
-		
-		return result;
+		BoardVo vo = new BoardVo();
+		vo.setNo(no);
+		vo.setTitle(modifiedTitle);
+		vo.setContents(modifiedContent);
+		int count = sqlSession.update("board.UpdateTitleAndContent", vo);
+		return count == 1;
 	}
-
-
-	public BoardVo findByIDs(Long contentNo) {
-		BoardVo vo = null;
-		Connection conn = null;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-				
-		try {
-			conn = getConnection();
-			
-			String sql ="select group_no, order_no, depth, user_no"
-					+ " from board"
-					+ " where no=?";
-			
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setLong(1, contentNo);
-			
-			rs = pstmt.executeQuery();
-			
-			while(rs.next()) {
-				int groupNo = rs.getInt(1);
-				int orderNo = rs.getInt(2);
-				int depth = rs.getInt(3);
-				Long userNo = rs.getLong(4);
-				
-				vo = new BoardVo();
-				vo.setDepth(depth);
-				vo.setGroupNo(groupNo);
-				vo.setOrderNo(orderNo);
-				vo.setUserNo(userNo);
-				
-			}
-			
-		} catch (SQLException e) {
-			System.out.println("error:" + e);
-		} finally {
-			try {
-				if(rs != null) {
-					rs.close();
-				}
-				if(pstmt != null) {
-					pstmt.close();
-				}
-				if(conn != null) {
-					conn.close();
-				}
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
-		
-		return vo;
-	}
-
-
-
-	public void updateNo(BoardVo vo) {
-		Connection conn = null;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		try {
-			conn = getConnection();
-			
-			String sql = "update board"
-					+ " set order_no=order_no+1"
-					+ " where group_no=? and order_no >= ?";
-				pstmt = conn.prepareStatement(sql);
-				
-				pstmt.setInt(1, vo.getGroupNo());
-				pstmt.setInt(2, vo.getOrderNo());
-		
-			
-				pstmt.executeUpdate();
-			
-			
-		} catch (SQLException e) {
-			System.out.println("error:" + e);
-		} finally {
-			try {if(rs != null) {
-					rs.close();
-				}	
-				if(pstmt != null) {
-					pstmt.close();
-				}
-				if(conn != null) {
-					conn.close();
-				}
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}		
-		
-	}
-
-
 
 	
 	public int totalCount() {
@@ -210,5 +61,26 @@ public class BoardRepository {
 		sqlSession.update("board.upHits", matchNo);
 	}
 
+	public BoardVo findByIDs(Long contentNo) {
+		return  sqlSession.selectOne("board.findByIDs", contentNo);
+	}
+	
+	public void updateNo(BoardVo replyVo) {
+		sqlSession.update("board.updateNo", replyVo);
+	}
+
+	
+//	private Connection getConnection() throws SQLException {
+//		Connection conn = null;
+//		try {
+//			Class.forName("org.mariadb.jdbc.Driver");
+//			String url = "jdbc:mysql://localhost:3306/webdb?characterEncoding=utf8";
+//			conn = DriverManager.getConnection(url, "webdb", "webdb");
+//		} catch (ClassNotFoundException e) {
+//			System.out.println("드라이버 로딩 실패:" + e);
+//		} 
+//		
+//		return conn;
+//	}	
 
 }

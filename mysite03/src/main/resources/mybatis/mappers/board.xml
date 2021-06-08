@@ -27,7 +27,7 @@
 	</select>
 	<select id="findByViewInfo" parameterType="long" resultType="boardvo" >
 		<![CDATA[
-		select no, title, contents, hit, user_no
+		select no, title, contents, hit, user_no as userNo
 			from board
 			where no=#{value}
 		]]>
@@ -40,11 +40,39 @@
 	</select>
 	
 	
+	
+	<select id="findByIDs" parameterType="long" resultType="boardvo" >
+		<![CDATA[
+			select group_no as groupNo, order_no as orderNo, depth, user_no as userNo
+				from board
+				where no=#{no};
+	
+		]]>
+	</select>
+	
+	<update id="updateNo" parameterType="boardvo">
+		<![CDATA[
+			update board
+				set order_no=order_no+1
+				where group_no=${groupNo} and order_no >= ${orderNo}
+		]]>
+	</update>
+	
+	
 	<update id="upHits" parameterType="long" >
 		<![CDATA[
 			update board
 				set hit=hit+1
 				where no=#{no}
+		]]>
+	</update>
+	
+	
+	<update id="UpdateTitleAndContent" parameterType="boardvo">
+		<![CDATA[
+			update board
+				set title=#{title }, contents=#{contents }
+				where no=#{no }
 		]]>
 	</update>
 	

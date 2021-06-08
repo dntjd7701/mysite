@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.douzone.mysite.security.Auth;
 import com.douzone.mysite.security.AuthUser;
@@ -130,15 +131,61 @@ public class BoardController {
 	@RequestMapping(value="/delete/{no}", method=RequestMethod.GET)
 	public String delete(@PathVariable(value="no") Long no, @AuthUser UserVo authUser) {
 		
-//		System.out.println(authUser.getNo() + " : " + no + " : " +  userNo);
 		
 		boardService.deleteList(no);
 		return "redirect:/board";
 	}
 	
+	@RequestMapping(value="/reply/{no}", method=RequestMethod.GET)
+	public String reply(@PathVariable(value="no", required=false) Long no, Model model) {
+		model.addAttribute(no);
+		return "board/reply";
+	}
 	
+	@RequestMapping(value="/submitreply/{no}", method=RequestMethod.POST)
+	public String reply(@PathVariable("no") Long no,
+						@RequestParam(value="title", required=true, defaultValue="") String title,
+						@RequestParam(value="contents", required=true, defaultValue="") String contents,
+						@AuthUser UserVo authUser) {
+		
+		BoardVo vo = boardService.findByID(no);
+		
+		BoardVo replyVo = new BoardVo();
+		replyVo.setUserNo(authUser.getNo());
+		replyVo.setTitle(title);
+		replyVo.setContents(contents);
+		replyVo.setGroupNo(vo.getGroupNo());
+		replyVo.setOrderNo(vo.getOrderNo()+1);
+		replyVo.setDepth(vo.getDepth()+1);
 	
+		boardService.upNo(replyVo);
+		boardService.doReply(replyVo);
+		return "redirect:/board";
+	}
 	
+	@RequestMapping(value="/modify/{no}", method=RequestMethod.GET)
+	public String modify(@PathVariable(value="no", required=false) Long no, Model model) {
+		List<BoardVo> viewInfos = boardService.viewList(no);
+		 for(BoardVo vo : viewInfos) {
+			 String content = vo.getContents();
+			 String newlineAdapt = content.replaceAll("<br/>", "\\r\\n");
+			 vo.setContents(newlineAdapt);
+		 }
+		model.addAttribute("viewInfos", viewInfos);
+		return "board/modify";
+	}
+	
+	@RequestMapping(value="/sumitmodify", method=RequestMethod.POST)
+	public String modify(
+			@RequestParam(value="title", required=true, defaultValue="") String title,
+			@RequestParam(value="contents", required=true, defaultValue="") String contents,
+			@RequestParam(value="no", required=true, defaultValue="") Long no) {
+	
+		boardService.updateView(no, title, contents);
+		
+		
+		return "redirect:/board";
+	}
 	
 	
 }

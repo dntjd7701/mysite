@@ -53,4 +53,24 @@ public class BoardService {
 	public void updateHit(Long no) {
 		boardRepository.upHits(no);
 	}
+
+	public BoardVo findByID(Long no) {
+		return boardRepository.findByIDs(no);
+	}
+	public void doReply(BoardVo vo) {
+		boardRepository.insert(vo);
+	}
+
+
+	public void upNo(BoardVo replyVo) {
+		boardRepository.updateNo(replyVo);
+	}
+
+
+	public void updateView(Long no, String title, String contents) {
+		boardRepository.UpdateTitleAndContent(no, title, contents);
+	}
+
+
+	
 }

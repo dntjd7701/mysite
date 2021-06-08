@@ -39,23 +39,23 @@
 														
 														<!-- 자바 내에서 치환함. -->
 															${viewinfo.contents }
-															
+														
 														</div>
 													</td>
 												</tr>
 											</table>
-										</c:forEach>
 										
-							<div class="bottom">
-								<c:if test='${not empty authUser }'>
-									<a href="${pageContext.request.contextPath }/board?a=replyform&no=${param.no}">댓글</a>
-								</c:if>
-								<a href="${pageContext.request.contextPath }/board">글목록</a>
-							<c:if test='${authUser.no==param.userNo }'>
-								<a href="${pageContext.request.contextPath }/board?a=modifyform&no=${param.no}">글수정</a>
-							</c:if>
-							</div>
-							
+										
+									<div class="bottom">
+										<c:if test='${not empty authUser }'>
+											<a href="${pageContext.request.contextPath }/board/reply/${no }">답글</a>
+										</c:if>
+										<a href="${pageContext.request.contextPath }/board">글목록</a>
+									<c:if test='${authUser.no == viewinfo.userNo }'>
+										<a href="${pageContext.request.contextPath }/board/modify/${no }">글수정</a>
+									</c:if>
+									</div>
+							</c:forEach>
 						</div>
 					</div>
 				

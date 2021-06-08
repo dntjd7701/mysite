@@ -22,11 +22,14 @@ public class BoardController {
 	@Autowired
 	private BoardService boardService;
 	
-	@RequestMapping(value = "", method = RequestMethod.GET)
-	public String index(Model model) {
+	@RequestMapping(value = {"","/{p}"}, method = RequestMethod.GET)
+	public String index(@PathVariable(name="p", required=false) Integer p, Model model) {
 		HashMap<String, Integer> map = new HashMap<>();
 
-		int currentPage=1;
+		int currentPage = 1;
+		if(p != null) {
+			currentPage = p;
+		}
 		int totalCount = boardService.getTotalCount();
 		int totalPage = boardService.getTotalPage();
 
@@ -34,10 +37,11 @@ public class BoardController {
 		int onePageCount = 5;
 		int startPage = (currentPage - 1) * onePageCount;
 		int count = totalCount - startPage;
-		int lastPage = currentPage >= 3 ? (currentPage + 2 >= totalPage ? totalPage : currentPage + 2)
-				: (5 > totalPage ? totalPage : 5);
+		int lastPage = currentPage >= 3 ? (currentPage + 2 >= totalPage ? totalPage : currentPage + 2) : (5 > totalPage ? totalPage : 5);
+		
 		int firstPage = currentPage >= 3 ? currentPage - 2 : 1;
-		if (currentPage + 2 >= totalPage) {
+		
+		if (currentPage + 2 >= totalPage && totalPage >= 5) {
 			firstPage = totalPage - 4;
 		}
 		// 왼쪽, 오른쪽
@@ -53,65 +57,10 @@ public class BoardController {
 			lastPage = currentPage;
 		}
 		map.put("currentPage", currentPage);
-		map.put("firstPage", firstPage);
-		map.put("lastPage", lastPage);
-		map.put("startPage", startPage);
-		map.put("totalPage", totalPage);
-		map.put("prevPage", prevPage);
-		map.put("nextPage", nextPage);
-		map.put("count", count);
-		map.put("onePageCount", onePageCount);
-
-		List<BoardVo> list = boardService.getList(map);
-
-		model.addAttribute("lists", list);
-		model.addAttribute("map", map);
-
-		return "board/list";
-	}
-	
-	
-	
-	
-	@RequestMapping(value = "/{p}", method = RequestMethod.GET)
-	public String index(@PathVariable("p") String p, Model model) {
-		HashMap<String, Integer> map = new HashMap<>();
-
-		int currentPage;
-		if (p != null) {
-			currentPage = Integer.parseInt(p);
-		} else {
-			currentPage = 1;
-		}
-
-		int totalCount = boardService.getTotalCount();
-		int totalPage = boardService.getTotalPage();
-
 		
-		int onePageCount = 5;
-		int startPage = (currentPage - 1) * onePageCount;
-		int count = totalCount - startPage;
-		int lastPage = currentPage >= 3 ? (currentPage + 2 >= totalPage ? totalPage : currentPage + 2)
-				: (5 > totalPage ? totalPage : 5);
-		int firstPage = currentPage >= 3 ? currentPage - 2 : 1;
-		if (currentPage + 2 >= totalPage) {
-			firstPage = totalPage - 4;
-		}
-		// 왼쪽, 오른쪽
-		int prevPage = currentPage - 1;
-		if (prevPage <= 1) {
-			prevPage = 1;
-		}
-		int nextPage = currentPage + 1;
-		if (nextPage >= totalPage) {
-			nextPage = totalPage;
-		}
-		if (totalPage == 0) {
-			lastPage = currentPage;
-		}
-		map.put("currentPage", currentPage);
 		map.put("firstPage", firstPage);
 		map.put("lastPage", lastPage);
+		
 		map.put("startPage", startPage);
 		map.put("totalPage", totalPage);
 		map.put("prevPage", prevPage);
@@ -178,12 +127,16 @@ public class BoardController {
 	}
 	
 	
-	@RequestMapping(value="/delete/{groupNo}", method=RequestMethod.GET)
-	public String delete(@PathVariable("groupNo") int groupNo) {
+	@RequestMapping(value="/delete/{no}", method=RequestMethod.GET)
+	public String delete(@PathVariable(value="no") Long no, @AuthUser UserVo authUser) {
 		
-		boardService.deleteList(groupNo);
+//		System.out.println(authUser.getNo() + " : " + no + " : " +  userNo);
+		
+		boardService.deleteList(no);
 		return "redirect:/board";
 	}
+	
+	
 	
 	
 	

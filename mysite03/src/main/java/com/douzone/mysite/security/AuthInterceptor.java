@@ -72,8 +72,8 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 		String role = auth.role();
 		
 		// role과 authUser.getRole을 비교. 
-		String authRole = authUser.getRole();
-		
+//		String authRole = authUser.getRole();
+//		
 		// 단, admin으로 로그인되어있을경우에는 다 들어갈 수 있어야함. 
 		
 		// 비교해서 admin page로 보내기 ~ 

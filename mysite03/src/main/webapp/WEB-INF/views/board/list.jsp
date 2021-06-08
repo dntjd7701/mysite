@@ -53,7 +53,7 @@
 						
 						<c:if test='${authUser.no == list.userNo }'>
 							<td>
-							<a href="${pageContext.request.contextPath }/board/delete/${list.groupNo}" class="del" style='background-image:url("${pageContext.request.contextPath }/assets/images/recycle.png")'>삭제</a>
+							<a href="${pageContext.request.contextPath }/board/delete/${list.no}" class="del" style='background-image:url("${pageContext.request.contextPath }/assets/images/recycle.png")'>삭제</a>
 							</td>
 						</c:if>
 					</tr>

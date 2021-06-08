@@ -30,8 +30,8 @@ public class BoardService {
 	}
 
 
-	public void deleteList(int groupNo) {
-		boardRepository.delete(groupNo);
+	public void deleteList(Long no) {
+		boardRepository.delete(no);
 	}
 
 

@@ -17,8 +17,8 @@
 	<select id="findThisPage" parameterType="map" resultType="boardvo" >
 		<![CDATA[
 		select b.no, b.title, b.hit, u.name,
-					 b.user_no, date_format(reg_date, '%Y/%m/%d %H:%i:%s') as regDate,
-					 b.order_no, b.depth, b.group_no 
+					 b.user_no as userNo, date_format(reg_date, '%Y/%m/%d %H:%i:%s') as regDate,
+					 b.order_no as orderNo, b.depth, b.group_no as groupNo  
 			from user u, board b
 			where b.user_no=u.no
 			order by group_no DESC, order_no asc
@@ -58,11 +58,11 @@
 	</insert>
 	
 	
-	<delete id="delete" parameterType="integer">
+	<delete id="delete" parameterType="long">
 		<![CDATA[
 			delete
 				from board
-				where group_no=#{groupNo}
+				where no=#{no }
 		]]>
 	</delete>
 	

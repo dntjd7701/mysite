@@ -187,8 +187,8 @@ public class BoardRepository {
 		return sqlSession.selectList("board.findThisPage", map);
 	}
 	
-	public boolean delete(int groupNo) {
-		int count = sqlSession.delete("board.delete", groupNo);
+	public boolean delete(Long no) {
+		int count = sqlSession.delete("board.delete", no);
 		return count==1;		
 	}
 

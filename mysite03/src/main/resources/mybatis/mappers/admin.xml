@@ -5,7 +5,7 @@
 	<update id="update" parameterType="sitevo">
 			<![CDATA[
 				update site 
-					set welcome=#{welcome }, description=#{description }
+					set welcome=#{welcome }, description=#{description }, profile=#{profile }
 			]]>
 	</update>
 	

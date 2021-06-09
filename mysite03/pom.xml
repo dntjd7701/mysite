@@ -22,6 +22,14 @@
 
 
 	<dependencies>
+	
+		<!-- Spring Aspect -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-aspects</artifactId>
+			<version>${org.springframwork-version}</version>
+		</dependency>
+		
 		<!-- Spring Context -->
 		<dependency>
 			<groupId>org.springframework</groupId>

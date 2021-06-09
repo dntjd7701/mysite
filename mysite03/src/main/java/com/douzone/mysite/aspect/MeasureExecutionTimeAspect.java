@@ -20,7 +20,7 @@ public class MeasureExecutionTimeAspect {
 	 */
 	
 	// repository 패키지 밑의 모든 클래스의 모든 메소드.
-	@Around(value="execution(* *..*.repository.*.*(..))")
+	@Around(value="execution(* *..*.repository.*.*(..)) || execution(* *..*.service.*.*(..)) || execution(* *..*.controller.*.*(..))")
 	public Object aroundAdvice(ProceedingJoinPoint pjp) throws Throwable {
 		// Before
 		StopWatch sw = new StopWatch();
@@ -42,7 +42,7 @@ public class MeasureExecutionTimeAspect {
 		String task = className + "." + methodName;
 		
 		
-		System.out.println("[Execution Time][" + task + "]" + totalTime + "(millis)");
+		System.out.println("[Execution Time][" + task + "] " + totalTime + "(millis)");
 		
 		return result;
 	}

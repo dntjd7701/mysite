@@ -25,72 +25,22 @@ public class BoardController {
 	
 	@RequestMapping(value = {"","/{p}"}, method = RequestMethod.GET)
 	public String index(@PathVariable(name="p", required=false) Integer p, Model model) {
-		HashMap<String, Integer> map = new HashMap<>();
-
-		int currentPage = 1;
-		if(p != null) {
-			currentPage = p;
-		}
-		int totalCount = boardService.getTotalCount();
-		int totalPage = boardService.getTotalPage();
-
-		
-		int onePageCount = 5;
-		int startPage = (currentPage - 1) * onePageCount;
-		int count = totalCount - startPage;
-		int lastPage = currentPage >= 3 ? (currentPage + 2 >= totalPage ? totalPage : currentPage + 2) : (5 > totalPage ? totalPage : 5);
-		
-		int firstPage = currentPage >= 3 ? currentPage - 2 : 1;
-		
-		if (currentPage + 2 >= totalPage && totalPage >= 5) {
-			firstPage = totalPage - 4;
-		}
-		// 왼쪽, 오른쪽
-		int prevPage = currentPage - 1;
-		if (prevPage <= 1) {
-			prevPage = 1;
-		}
-		int nextPage = currentPage + 1;
-		if (nextPage >= totalPage) {
-			nextPage = totalPage;
-		}
-		if (totalPage == 0) {
-			lastPage = currentPage;
-		}
-		map.put("currentPage", currentPage);
-		
-		map.put("firstPage", firstPage);
-		map.put("lastPage", lastPage);
-		
-		map.put("startPage", startPage);
-		map.put("totalPage", totalPage);
-		map.put("prevPage", prevPage);
-		map.put("nextPage", nextPage);
-		map.put("count", count);
-		map.put("onePageCount", onePageCount);
-
+		HashMap<String, Integer> map = boardService.paging(p);
 		List<BoardVo> list = boardService.getList(map);
 
 		model.addAttribute("lists", list);
 		model.addAttribute("map", map);
-
 		return "board/list";
 	}
+	
 	
 	@RequestMapping(value="/view/{no}", method=RequestMethod.GET)
 	public String view(@PathVariable("no") Long no, Model model) {
 		 List<BoardVo> viewInfos = boardService.viewList(no);
-		 
-		 for(BoardVo vo : viewInfos) {
-			 String content = vo.getContents();
-			 String newlineAdapt = content.replaceAll("\r\n", "<br/>");
-			 vo.setContents(newlineAdapt);
-		 }
-		 
-		 boardService.updateHit(no);
 		 model.addAttribute("viewInfos",viewInfos);
 		return "board/view";
 	}
+	
 	
 	@Auth
 	@RequestMapping(value="/write", method=RequestMethod.GET)
@@ -106,7 +56,6 @@ public class BoardController {
 		String content = vo.getContents();
 		Long userNo = authUser.getNo();
 		
-		System.out.println(authUser.getName());
 		if("".equals(title) || "".equals(content)) {
 			return "redirect:/board/write";
 		}
@@ -122,7 +71,7 @@ public class BoardController {
 		newVo.setUserNo(userNo);
 		newVo.setUserName(authUser.getName());
 		
-		System.out.println(newVo);
+		
 		boardService.writeList(newVo);
 		return "redirect:/board";
 	}
@@ -191,6 +140,9 @@ public class BoardController {
 		
 		return "redirect:/board";
 	}
+	
+	
+	
 	
 	
 }

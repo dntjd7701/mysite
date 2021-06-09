@@ -1,5 +1,7 @@
 package com.douzone.mysite.controller;
 
+import javax.servlet.ServletContext;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,11 +25,15 @@ public class AdminController {
 	private AdminService adminService;
 	@Autowired
 	private FileUploadService fileUploadService;
+	@Autowired
+	private ServletContext application;
+	
 
 	@RequestMapping("")
 	public String main(Model model) {
 		SiteVo vo = adminService.findMain();
 		model.addAttribute("siteVo", vo);
+		application.setAttribute("title", vo.getTitle());
 		return "admin/main";
 	}
 	

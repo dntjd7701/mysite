@@ -128,6 +128,7 @@ public class BoardController {
 	}
 	
 	
+	@Auth
 	@RequestMapping(value="/delete/{no}", method=RequestMethod.GET)
 	public String delete(@PathVariable(value="no") Long no, @AuthUser UserVo authUser) {
 		
@@ -136,12 +137,14 @@ public class BoardController {
 		return "redirect:/board";
 	}
 	
+	@Auth
 	@RequestMapping(value="/reply/{no}", method=RequestMethod.GET)
 	public String reply(@PathVariable(value="no", required=false) Long no, Model model) {
 		model.addAttribute(no);
 		return "board/reply";
 	}
 	
+	@Auth
 	@RequestMapping(value="/submitreply/{no}", method=RequestMethod.POST)
 	public String reply(@PathVariable("no") Long no,
 						@RequestParam(value="title", required=true, defaultValue="") String title,
@@ -163,6 +166,7 @@ public class BoardController {
 		return "redirect:/board";
 	}
 	
+	@Auth
 	@RequestMapping(value="/modify/{no}", method=RequestMethod.GET)
 	public String modify(@PathVariable(value="no", required=false) Long no, Model model) {
 		List<BoardVo> viewInfos = boardService.viewList(no);
@@ -175,6 +179,7 @@ public class BoardController {
 		return "board/modify";
 	}
 	
+	@Auth
 	@RequestMapping(value="/sumitmodify", method=RequestMethod.POST)
 	public String modify(
 			@RequestParam(value="title", required=true, defaultValue="") String title,

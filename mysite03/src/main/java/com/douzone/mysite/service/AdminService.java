@@ -17,5 +17,4 @@ public class AdminService {
 	public SiteVo findMain() {
 		return adminRepository.find();
 	}
-
 }

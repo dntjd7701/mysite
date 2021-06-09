@@ -3,15 +3,26 @@
 
 <mapper namespace="admin">
 	<update id="update" parameterType="sitevo">
-			<![CDATA[
-				update site 
-					set welcome=#{welcome }, description=#{description }, profile=#{profile }
-			]]>
+		<choose>
+			<when test='profile == ""'>
+				<![CDATA[
+					update site 
+						set title=#{title },welcome=#{welcome }, description=#{description }
+				]]>
+			</when>
+			<otherwise>
+				<![CDATA[
+					update site 
+						set title=#{title },welcome=#{welcome }, description=#{description }, profile=#{profile }
+				]]>
+			</otherwise>
+		</choose>
 	</update>
+	
 	
 	<select id="find" resultType="sitevo">
 			<![CDATA[
-				select welcome, profile, description from site 
+				select title, welcome, profile, description from site 
 			]]>
 	</select>
 </mapper>

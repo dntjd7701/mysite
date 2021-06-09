@@ -32,7 +32,7 @@ public class FileUploadService {
 	 * 
 	 */
 	public String restore(MultipartFile file) {
-		String url = null;
+		String url = "";
 	try {
 		if(file.isEmpty()) {
 			return url;

@@ -136,13 +136,15 @@ public class BoardController {
 			@RequestParam(value="no", required=true, defaultValue="") Long no) {
 	
 		boardService.updateView(no, title, contents);
-		
-		
 		return "redirect:/board";
 	}
 	
-	
-	
-	
-	
+//	@RequestMapping("/search")
+//	public String search(
+//			@RequestParam("kwd") String kwd,
+//			@RequestParam("search") String search,
+//			Model model) {
+//		
+//		return "board/list";
+//	}
 }

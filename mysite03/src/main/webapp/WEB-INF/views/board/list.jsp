@@ -8,14 +8,32 @@
 <title>mysite</title>
 <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <link href="${pageContext.servletContext.contextPath }/assets/css/board.css" rel="stylesheet" type="text/css">
+<script>
+ myObj = {
+		 "no":1,
+		 "name":"우성",
+		 "email": "elsa@gmail.com"
+		 
+ }
+
+
+</script>
+console.log(myObj.no)
+
+
 </head>
 <body>
 	<div id="container">
 		<c:import url="/WEB-INF/views/includes/header.jsp"/>
 		<div id="content">
 			<div id="board">
-				<form id="search_form" action="" method="post">
-					<input type="text" id="kwd" name="kwd" value="">
+				<form id="search_form" action="${pageContext.request.contextPath }/board/search" method="post">
+					<select id='search_options' name='search' required>
+						<option value="title">제목</option>
+						<option value="contents">내용</option>
+						<option value="userName">작성자</option>
+					</select>
+					<input type="text" id="kwd" name="kwd" value="" required>
 					<input type="submit" value="찾기">
 				</form>
 				

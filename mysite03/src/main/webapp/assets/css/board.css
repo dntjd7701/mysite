@@ -3,11 +3,19 @@
 
 #board { margin:20px auto;	width:550px; }
 
-
+#search_options{
+	height:27px;
+	border-color:deeppink;
+}
+#kwd{
+	border-color:deeppink;	 
+	
+}
 #search_form {
 	width:100%;
 	margin:50px auto 20px auto; 
-	text-align:center; 	 
+	text-align:center; 
+	
 }
 
 input[type="text"]	{

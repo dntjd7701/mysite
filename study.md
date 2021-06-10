@@ -1,25 +1,20 @@
-# 개념 
+# 개념
 
+### 목차
 
-### 목차 
+    1. JDBC와 DBCP
+    2. Security
 
-	1. JDBC와 DBCP   
-	2. Security
-	
-	
-	
-	
 #### JDBC와 DBCP
 
-- DBCP의 정의   
+- DBCP의 정의
 
-	1. DBCP(DataBase Connection Pool)   
-	2. 데이터베이스와 애플리케이션을 효율적으로 연	결하는 커넥션 풀 라이브러리
+  1.  DBCP(DataBase Connection Pool)
+  2.  데이터베이스와 애플리케이션을 효율적으로 연 결하는 커넥션 풀 라이브러리
 
 이러한 DBCP는 WAS가 실행되면서 미리 일정량의 DB Connection 객체를 생성하고 Pool이라는 공간에 저장합니다. 저장된 DB Connection 객체는 요청에 따라 필요할 때마다 Pool에서 가져다 쓰고 반환할 수 있습니다. 따라서 요청할 때마다 DB Driver에 로드하여 물리적인 Connection 객체를 생성하는 비용이 줄어들어 앞서 말씀드린 문제를 해결할 수 있게 됩니다.
 
- 
-	DBCP 고려사항
+    DBCP 고려사항
 
 maxActive
 DBCP에서 가장 중요한 성능 요소는 maxActive(커넥션의 최대 개수)이며, 이를 설정할 때는 고려해야 할 사항이 있습니다.
@@ -34,8 +29,6 @@ WAS Thread
 
 WAS Thread = Connection Pool + 10
 
+#### Security
 
-
-#### Security 
-
-	
+dasfdsfas

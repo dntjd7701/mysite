@@ -25,6 +25,21 @@
 			limit #{startPage}, #{onePageCount}
 		]]>
 	</select>
+	
+	<select id="search" parameterType="map" resultType="boardvo" >
+		<![CDATA[
+		select b.no, b.title, b.hit, u.name,
+					 b.user_no as userNo, date_format(reg_date, '%Y/%m/%d %H:%i:%s') as regDate,
+					 b.order_no as orderNo, b.depth, b.group_no as groupNo  
+			from user u, board b
+			where b.user_no=u.no
+			like '%${text or contents or userName}%'
+			order by group_no DESC, order_no asc
+			limit #{startPage}, #{onePageCount}
+		]]>
+	</select>
+	
+	
 	<select id="findByViewInfo" parameterType="long" resultType="boardvo" >
 		<![CDATA[
 		select no, title, contents, hit, user_no as userNo

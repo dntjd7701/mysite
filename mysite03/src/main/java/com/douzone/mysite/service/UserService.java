@@ -28,4 +28,8 @@ public class UserService {
 	public UserVo updateUser(UserVo userVo) {
 		return userRepository.update(userVo);
 	}
+
+	public UserVo getUser(String email) {
+		return userRepository.findByEmail(email);
+	}
 }

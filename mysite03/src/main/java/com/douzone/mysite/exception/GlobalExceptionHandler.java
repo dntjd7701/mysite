@@ -3,9 +3,11 @@ package com.douzone.mysite.exception;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 //@ControllerAdvice
@@ -13,10 +15,29 @@ public class GlobalExceptionHandler {
 	private static final Log LOGGER = LogFactory.getLog( GlobalExceptionHandler.class );
 	
 	@ExceptionHandler(Exception.class)
-	public String handlerException(Model model, Exception e) {
+	public String handlerException(
+			HttpServletRequest request,
+			HttpServletResponse response,
+			Exception e) throws Exception {
 		// 1. logging
 		StringWriter errors = new StringWriter();
 		e.printStackTrace(new PrintWriter(errors));
+		LOGGER.error(errors.toString());
+		
+		// 2. 요청 구분
+		// 만약, JSON 요청인 경우라면 request header의 Accept에 application/json
+		// 만약, HTML 요청인 경우라면 request header의 Accept에 text/html
+		String accept = request.getHeader("accept");
+		if(accept.matches(	".*application/json.*")) {
+			// 3. Json 응답. 
+			
+		} else {
+			// 3. 사과 페이지 가기 (정상 종료)
+			request.setAttribute("exception", errors.toString());
+			request.getRequestDispatcher("/WEB-INF/views/error/exception.jsp").forward(request, response);
+		}
+		return "error/exception";
+		
 		// System.out.println(erros);
 		/**
 		 * 1. appender
@@ -29,13 +50,5 @@ public class GlobalExceptionHandler {
 		 *    logger - Root(default), level(debug), (console appender)
 		 * 
 		 */
-		LOGGER.error(errors.toString());
-		// 2. sorry~ page
-		
-		// 3. 정상 종료 
-		
-		model.addAttribute("exception", errors.toString());
-		
-		return "error/exception";
 	}
 }

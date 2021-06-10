@@ -12,7 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 @Service
 public class FileUploadService {
 	private static final String SAVE_PATH="/Users/kang-woosung/uploads-mysite/";
-	private static final String URL_BASE="/images";
+	private static final String URL_BASE="/images/";
 	/**
 	 * 
 	 * @param file1
@@ -57,12 +57,12 @@ public class FileUploadService {
 		
 		
 			byte[] data = file.getBytes();
-			OutputStream os = new FileOutputStream(SAVE_PATH + "/" + saveFileName);
+			OutputStream os = new FileOutputStream(SAVE_PATH + saveFileName);
 			os.write(data);
 			os.close();
 			
-			
-			url = URL_BASE + "/" + saveFileName;
+//--------------------------------------------------------------------------------
+			url = URL_BASE + saveFileName;
 			
 		} catch (IOException e) {
 			throw new RuntimeException("file upload error" + e);

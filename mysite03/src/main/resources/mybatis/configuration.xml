@@ -6,6 +6,7 @@
 	    <typeAlias type="com.douzone.mysite.vo.UserVo" alias="uservo"/>
 	    <typeAlias type="com.douzone.mysite.vo.BoardVo" alias="boardvo"/>
 	    <typeAlias type="com.douzone.mysite.vo.SiteVo" alias="sitevo"/>
+	    <typeAlias type="com.douzone.mysite.vo.GalleryVo" alias="galleryvo"/>
     </typeAliases>
     
     
@@ -14,5 +15,6 @@
 		<mapper resource="mybatis/mappers/user.xml" />
 		<mapper resource="mybatis/mappers/board.xml" />
 		<mapper resource="mybatis/mappers/admin.xml" />
+		<mapper resource="mybatis/mappers/gallery.xml" />
 	</mappers>
 </configuration>

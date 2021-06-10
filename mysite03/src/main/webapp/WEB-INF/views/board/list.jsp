@@ -8,18 +8,6 @@
 <title>mysite</title>
 <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <link href="${pageContext.servletContext.contextPath }/assets/css/board.css" rel="stylesheet" type="text/css">
-<script>
- myObj = {
-		 "no":1,
-		 "name":"우성",
-		 "email": "elsa@gmail.com"
-		 
- }
-
-
-</script>
-console.log(myObj.no)
-
 
 </head>
 <body>

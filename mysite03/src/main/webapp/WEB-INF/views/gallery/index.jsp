@@ -45,7 +45,9 @@ $(function(){
 </head>
 <body>
 	<div id="container">
-		<c:import url="/WEB-INF/views/include/header.jsp" />
+	
+		<c:import url="/WEB-INF/views/includes/header.jsp" />
+		
 		<div id="content">
 			<div id="gallery">
 				<div>
@@ -54,10 +56,10 @@ $(function(){
 				</div>
 				<ul>
 						<li>
-							<a	href="${pageContext.request.contextPath }/assets/gallery-examples/im1.jpg"
+							<a	href="${pageContext.request.contextPath }/assets/images/gallery-examples/im1.jpg"
 								data-lightbox="gallery"
 								class="image"
-								style="background-image:url('${pageContext.request.contextPath }/assets/gallery-examples/im1.jpg')">&nbsp;</a>
+								style="background-image:url('${pageContext.request.contextPath }/assets/images/gallery-examples/im1.jpg')">&nbsp;</a>
 								
 							<a	href="${pageContext.request.contextPath }/gallery/delete/1"
 								class="del-button"
@@ -66,10 +68,10 @@ $(function(){
 						
 						
 						<li>
-							<a	href="${pageContext.request.contextPath }/assets/gallery-examples/im2.jpg'"
+							<a	href="${pageContext.request.contextPath }/assets/images/gallery-examples/im2.jpg'"
 								data-lightbox="gallery"
 								class="image"
-								style="background-image:url('${pageContext.request.contextPath }/assets/gallery-examples/im2.jpg')">&nbsp;</a>
+								style="background-image:url('${pageContext.request.contextPath }/assets/images/gallery-examples/im2.jpg')">&nbsp;</a>
 								
 							<a	href="${pageContext.request.contextPath }/gallery/delete/2"
 								class="del-button"
@@ -77,10 +79,10 @@ $(function(){
 						</li>
 						
 						<li>
-							<a	href="${pageContext.request.contextPath }/assets/gallery-examples/im3.jpg"
+							<a	href="${pageContext.request.contextPath }/assets/images/gallery-examples/im3.jpg"
 								data-lightbox="gallery"
 								class="image"
-								style="background-image:url('${pageContext.request.contextPath }/assets/gallery-examples/im3.jpg')">&nbsp;</a>
+								style="background-image:url('${pageContext.request.contextPath }/assets/images/gallery-examples/im3.jpg')">&nbsp;</a>
 								
 							<a	href="${pageContext.request.contextPath }/gallery/delete/3"
 								class="del-button"
@@ -88,10 +90,10 @@ $(function(){
 						</li>
 						
 						<li>
-							<a	href="${pageContext.request.contextPath }/assets/gallery-examples/im4.jpg"
+							<a	href="${pageContext.request.contextPath }/assets/images/gallery-examples/im4.jpg"
 								data-lightbox="gallery"
 								class="image"
-								style="background-image:url('${pageContext.request.contextPath }/assets/gallery-examples/im4.jpg')">&nbsp;</a>
+								style="background-image:url('${pageContext.request.contextPath }/assets/images/gallery-examples/im4.jpg')">&nbsp;</a>
 								
 							<a	href="${pageContext.request.contextPath }/gallery/delete/4"
 								class="del-button"
@@ -100,10 +102,10 @@ $(function(){
 						
 	
 						<li>
-							<a	href="${pageContext.request.contextPath }/assets/gallery-examples/im5.jpg"
+							<a	href="${pageContext.request.contextPath }/assets/images/gallery-examples/im5.jpg"
 								data-lightbox="gallery"
 								class="image"
-								style="background-image:url('${pageContext.request.contextPath }/assets/gallery-examples/im5.jpg')">&nbsp;</a>
+								style="background-image:url('${pageContext.request.contextPath }/assets/images/gallery-examples/im5.jpg')">&nbsp;</a>
 								
 							<a	href="${pageContext.request.contextPath }/gallery/delete/5"
 								class="del-button"
@@ -111,10 +113,10 @@ $(function(){
 						</li>
 						
 						<li>
-							<a	href="${pageContext.request.contextPath }/assets/gallery-examples/im6.jpg"
+							<a	href="${pageContext.request.contextPath }/assets/images/gallery-examples/im6.jpg"
 								data-lightbox="gallery"
 								class="image"
-								style="background-image:url('${pageContext.request.contextPath }/assets/gallery-examples/im6.jpg')">&nbsp;</a>
+								style="background-image:url('${pageContext.request.contextPath }/assets/images/gallery-examples/im6.jpg')">&nbsp;</a>
 								
 							<a	href="${pageContext.request.contextPath }/gallery/delete/6"
 								class="del-button"
@@ -122,10 +124,10 @@ $(function(){
 						</li>
 						
 						<li>
-							<a	href="${pageContext.request.contextPath }/assets/gallery-examples/im7.jpg"
+							<a	href="${pageContext.request.contextPath }/assets/images/gallery-examples/im7.jpg"
 								data-lightbox="gallery"
 								class="image"
-								style="background-image:url('${pageContext.request.contextPath }/assets/gallery-examples/im7.jpg')">&nbsp;</a>
+								style="background-image:url('${pageContext.request.contextPath }/assets/images/gallery-examples/im7.jpg')">&nbsp;</a>
 								
 							<a	href="${pageContext.request.contextPath }/gallery/delete/7"
 								class="del-button"
@@ -133,10 +135,10 @@ $(function(){
 						</li>
 						
 						<li>
-							<a	href="${pageContext.request.contextPath }/assets/gallery-examples/im8.jpg"
+							<a	href="${pageContext.request.contextPath }/assets/images/gallery-examples/im8.jpg"
 								data-lightbox="gallery"
 								class="image"
-								style="background-image:url('${pageContext.request.contextPath }/assets/gallery-examples/im8.jpg')">&nbsp;</a>
+								style="background-image:url('${pageContext.request.contextPath }/assets/images/gallery-examples/im8.jpg')">&nbsp;</a>
 								
 							<a	href="${pageContext.request.contextPath }/gallery/delete/8"
 								class="del-button"
@@ -144,10 +146,10 @@ $(function(){
 						</li>
 						
 						<li>
-							<a	href="${pageContext.request.contextPath }/assets/gallery-examples/im9.jpg"
+							<a	href="${pageContext.request.contextPath }/assets/images/gallery-examples/im9.jpg"
 								data-lightbox="gallery"
 								class="image"
-								style="background-image:url('${pageContext.request.contextPath }/assets/gallery-examples/im9.jpg')">&nbsp;</a>
+								style="background-image:url('${pageContext.request.contextPath }/assets/images/gallery-examples/im9.jpg')">&nbsp;</a>
 								
 							<a	href="${pageContext.request.contextPath }/gallery/delete/9"
 								class="del-button"
@@ -155,10 +157,10 @@ $(function(){
 						</li>
 						
 						<li>
-							<a	href="${pageContext.request.contextPath }/assets/gallery-examples/im10.jpg"
+							<a	href="${pageContext.request.contextPath }/assets/images/gallery-examples/im10.jpg"
 								data-lightbox="gallery"
 								class="image"
-								style="background-image:url('${pageContext.request.contextPath }/assets/gallery-examples/im10.jpg')">&nbsp;</a>
+								style="background-image:url('${pageContext.request.contextPath }/assets/images/gallery-examples/im10.jpg')">&nbsp;</a>
 								
 							<a	href="${pageContext.request.contextPath }/gallery/delete/10"
 								class="del-button"
@@ -166,10 +168,10 @@ $(function(){
 						</li>
 						
 						<li>
-							<a	href="${pageContext.request.contextPath }/assets/gallery-examples/im11.jpg"
+							<a	href="${pageContext.request.contextPath }/assets/images/gallery-examples/im11.jpg"
 								data-lightbox="gallery"
 								class="image"
-								style="background-image:url('${pageContext.request.contextPath }/assets/gallery-examples/im11.jpg')">&nbsp;</a>
+								style="background-image:url('${pageContext.request.contextPath }/assets/images/gallery-examples/im11.jpg')">&nbsp;</a>
 								
 							<a	href="${pageContext.request.contextPath }/gallery/delete/11"
 								class="del-button"
@@ -177,10 +179,10 @@ $(function(){
 						</li>
 						
 						<li>
-							<a	href="${pageContext.request.contextPath }/assets/gallery-examples/im12.jpg"
+							<a	href="${pageContext.request.contextPath }/assets/images/gallery-examples/im12.jpg"
 								data-lightbox="gallery"
 								class="image"
-								style="background-image:url('${pageContext.request.contextPath }/assets/gallery-examples/im12.jpg')">&nbsp;</a>
+								style="background-image:url('${pageContext.request.contextPath }/assets/images/gallery-examples/im12.jpg')">&nbsp;</a>
 								
 							<a	href="${pageContext.request.contextPath }/gallery/delete/12"
 								class="del-button"
@@ -188,10 +190,10 @@ $(function(){
 						</li>																														
 		
 						<li>
-							<a	href="${pageContext.request.contextPath }/assets/gallery-examples/im13.jpg"
+							<a	href="${pageContext.request.contextPath }/assets/images/gallery-examples/im13.jpg"
 								data-lightbox="gallery"
 								class="image"
-								style="background-image:url('${pageContext.request.contextPath }/assets/gallery-examples/im13.jpg')">&nbsp;</a>
+								style="background-image:url('${pageContext.request.contextPath }/assets/images/gallery-examples/im13.jpg')">&nbsp;</a>
 								
 							<a	href="${pageContext.request.contextPath }/gallery/delete/13"
 								class="del-button"
@@ -199,10 +201,10 @@ $(function(){
 						</li>
 						
 						<li>
-							<a	href="${pageContext.request.contextPath }/assets/gallery-examples/im14.jpg"
+							<a	href="${pageContext.request.contextPath }/assets/images/gallery-examples/im14.jpg"
 								data-lightbox="gallery"
 								class="image"
-								style="background-image:url('${pageContext.request.contextPath }/assets/gallery-examples/im14.jpg')">&nbsp;</a>
+								style="background-image:url('${pageContext.request.contextPath }/assets/images/gallery-examples/im14.jpg')">&nbsp;</a>
 								
 							<a	href="${pageContext.request.contextPath }/gallery/delete/14"
 								class="del-button"
@@ -210,10 +212,10 @@ $(function(){
 						</li>
 						
 						<li>
-							<a	href="${pageContext.request.contextPath }/assets/gallery-examples/im15.jpg"
+							<a	href="${pageContext.request.contextPath }/assets/images/gallery-examples/im15.jpg"
 								data-lightbox="gallery"
 								class="image"
-								style="background-image:url('${pageContext.request.contextPath }/assets/gallery-examples/im15.jpg')">&nbsp;</a>
+								style="background-image:url('${pageContext.request.contextPath }/assets/images/gallery-examples/im15.jpg')">&nbsp;</a>
 								
 							<a	href="${pageContext.request.contextPath }/gallery/delete/15"
 								class="del-button"
@@ -235,10 +237,10 @@ $(function(){
   				</form>
 			</div>
 		</div>
-		<c:import url="/WEB-INF/views/include/navigation.jsp">
+		<c:import url="/WEB-INF/views/includes/navigation.jsp">
 			<c:param name="menu" value="gallery"/>
 		</c:import>
-		<c:import url="/WEB-INF/views/include/footer.jsp" />
+		<c:import url="/WEB-INF/views/includes/footer.jsp" />
 	</div>
 </body>
 </html>

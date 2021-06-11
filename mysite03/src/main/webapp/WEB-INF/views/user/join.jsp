@@ -79,35 +79,42 @@ $(function(){
 					</p>
 
 					<label class="block-label" for="email">이메일</label>
-					<input id="email" name="email" type="text" value="">
+					<form:input path="email"/>
+					<!-- <input id="email" name="email" type="text" value=""> -->
+					<%-- <form:button id="btn-check" type="button" value="중복체크" /> --%>
 					<input id="btn-check" type="button" value="중복체크">
 					<img id="img-check" src="${pageContext.request.contextPath }/assets/images/check.png" style="width:18px; vertical-align: bottom; display: none"/>
 					
 					<p style='color:deeppink; text-align:left; padding-left:0'>
-					<spring:hasBindErrors name="userVo">
+					<%-- <spring:hasBindErrors name="userVo">
 						<c:if test="${errors.hasFieldErrors('email') }">
  					       <strong>${errors.getFieldError('email').defaultMessage }</strong>
 					   </c:if>
-					</spring:hasBindErrors>
+					</spring:hasBindErrors> --%>
+						<strong><form:errors path="email"/></strong>
+					</p>
+					
+					<label class="block-label">패스워드</label>
+					<form:input path="password"/>
+					<%-- <label class="block-label"><spring:message code='user.join.label.password'> 패스워드</spring:message></label> --%>
+					<!-- <input name="password" type="password" value=""> -->
+					<p style='color:deeppink; text-align:left; padding-left:0'>
+					<%-- <spring:hasBindErrors name="userVo">
+						<c:if test="${errors.hasFieldErrors('email') }">
+ 					       <strong>${errors.getFieldError('email').defaultMessage }</strong>
+					   </c:if>
+					</spring:hasBindErrors> --%>
+						<strong><form:errors path="password"/></strong>
 					</p>
 					
 					
-					<label class="block-label">패스워드</label>
-<%-- 					<label class="block-label"><spring:message code='user.join.label.password'> 패스워드</spring:message></label> --%>
-					<input name="password" type="password" value="">
+					<label class="block-label">성별</label>
+					여 <input type="radio" name="gender" value="female" checked="checked">
+					남 <input type="radio" name="gender" value="male">
 					
-					
-					<fieldset>
-						<legend>성별</legend>
-						<label>여</label> <input type="radio" name="gender" value="female" checked="checked">
-						<label>남</label> <input type="radio" name="gender" value="male">
-					</fieldset>
-					
-					<fieldset>
-						<legend>약관동의</legend>
-						<input id="agree-prov" type="checkbox" name="agreeProv" value="y">
-						<label>서비스 약관에 동의합니다.</label>
-					</fieldset>
+					<label class="block-label">약관동의</label>
+					<input id="agree-prov" type="checkbox" name="agreeProv" value="y">
+					<label>서비스 약관에 동의합니다.</label>
 					
 					<input type="submit" value="가입하기">
 					

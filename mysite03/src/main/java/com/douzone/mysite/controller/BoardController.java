@@ -24,7 +24,11 @@ public class BoardController {
 	private BoardService boardService;
 	
 	@RequestMapping(value = {"","/{p}"}, method = RequestMethod.GET)
-	public String index(@PathVariable(name="p", required=false) Integer p, Model model) {
+	public String index(
+			@PathVariable(name="p", required=false) Integer p, 
+			Model model) {
+		
+		
 		HashMap<String, Integer> map = boardService.paging(p);
 		List<BoardVo> list = boardService.getList(map);
 

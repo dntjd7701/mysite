@@ -12,6 +12,12 @@ public class BoardVo {
 	private Long userNo;
 	private String userName;
 	
+//	private Integer hit;
+//	private Integer groupNo;
+//	private Integer orderNo;
+//	private Integer depth;
+//	
+	
 	
 	
 	public Long getNo() {

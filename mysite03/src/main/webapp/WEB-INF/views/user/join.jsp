@@ -1,6 +1,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>    
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>    
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %> 
+<%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
 
@@ -56,15 +57,30 @@ $(function(){
 	
 		<div id="content">
 			<div id="user">
-				<form id="join-form" name="joinForm" method="post" action="${pageContext.request.contextPath }/user">
-					<input type="hidden" name="a" value="join" />
+				<form id="join-form" name="joinForm" method="post" action="${pageContext.request.contextPath }/user/join">
 					<label class="block-label" for="name">이름</label>
 					<input id="name" name="name" type="text" value="">
+					
+					<p style='color:deeppink; text-align:left; padding-left:0'>
+					<spring:hasBindErrors name="userVo">
+						<c:if test="${errors.hasFieldErrors('name') }">
+ 					       <strong>${errors.getFieldError('name').defaultMessage }</strong>
+					   </c:if>
+					</spring:hasBindErrors>
+					</p>
 
 					<label class="block-label" for="email">이메일</label>
 					<input id="email" name="email" type="text" value="">
 					<input id="btn-check" type="button" value="중복체크">
 					<img id="img-check" src="${pageContext.request.contextPath }/assets/images/check.png" style="width:18px; vertical-align: bottom; display: none"/>
+					
+					<p style='color:deeppink; text-align:left; padding-left:0'>
+					<spring:hasBindErrors name="userVo">
+						<c:if test="${errors.hasFieldErrors('email') }">
+ 					       <strong>${errors.getFieldError('email').defaultMessage }</strong>
+					   </c:if>
+					</spring:hasBindErrors>
+					</p>
 					
 					
 					<label class="block-label">패스워드</label>

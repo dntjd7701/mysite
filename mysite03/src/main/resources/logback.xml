@@ -15,6 +15,7 @@
 			<Pattern>
 				%d{HH:mm:ss.SSS} [%thread] %-5level %logger{5} - %msg%n
 			</Pattern>
+		
 		</encoder>
 		<rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
 			<FileNamePattern>/Users/kang-woosung/logs-mysite/exception.--%i.log.zip</FileNamePattern>
@@ -37,6 +38,7 @@
 	
 	<!-- 루트(글로벌) 로거 -->
 	<root level="info">
+          <!--   <appender-ref ref="fileAppender3" /> -->
 		<appender-ref ref="consoleAppender" />
 	</root>
  

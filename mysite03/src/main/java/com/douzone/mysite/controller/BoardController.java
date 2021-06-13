@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.douzone.mysite.security.Auth;
 import com.douzone.mysite.security.AuthUser;
 import com.douzone.mysite.service.BoardService;
 import com.douzone.mysite.vo.BoardVo;
@@ -47,12 +48,14 @@ public class BoardController {
 	
 	
 
+	
+	@Auth
 	@RequestMapping(value="/write", method=RequestMethod.GET)
 	public String write(@AuthUser UserVo authUser, Model model) {
 		return "board/write";
 	}
 	
-
+	@Auth
 	@RequestMapping(value="/writesuccess", method=RequestMethod.POST)
 	public String write(@AuthUser UserVo authUser, BoardVo vo) {
 		
@@ -81,7 +84,7 @@ public class BoardController {
 	}
 	
 	
-
+	@Auth
 	@RequestMapping(value="/delete/{no}", method=RequestMethod.GET)
 	public String delete(@PathVariable(value="no") Long no, @AuthUser UserVo authUser) {
 		
@@ -90,14 +93,14 @@ public class BoardController {
 		return "redirect:/board";
 	}
 	
-	
+	@Auth
 	@RequestMapping(value="/reply/{no}", method=RequestMethod.GET)
 	public String reply(@PathVariable(value="no", required=false) Long no, Model model) {
 		model.addAttribute(no);
 		return "board/reply";
 	}
 	
-
+	@Auth
 	@RequestMapping(value="/submitreply/{no}", method=RequestMethod.POST)
 	public String reply(@PathVariable("no") Long no,
 						@RequestParam(value="title", required=true, defaultValue="") String title,
@@ -118,7 +121,8 @@ public class BoardController {
 		boardService.doReply(replyVo);
 		return "redirect:/board";
 	}
-
+	
+	@Auth
 	@RequestMapping(value="/modify/{no}", method=RequestMethod.GET)
 	public String modify(@PathVariable(value="no", required=false) Long no, Model model) {
 		List<BoardVo> viewInfos = boardService.viewList(no);
@@ -131,7 +135,7 @@ public class BoardController {
 		return "board/modify";
 	}
 	
-
+	@Auth
 	@RequestMapping(value="/sumitmodify", method=RequestMethod.POST)
 	public String modify(
 			@RequestParam(value="title", required=true, defaultValue="") String title,

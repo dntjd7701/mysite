@@ -33,9 +33,10 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 		
 		if(auth == null) {
 			auth = handlerMethod.getBeanType().getAnnotation(Auth.class);
-			if(auth == null) {
-				return true;
-			}
+		}
+		
+		if(auth == null) {
+			return true;
 		}
 		/**		과제 
 		 * if(auth == null){
@@ -70,8 +71,11 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 		String role = auth.role();
 		// role과 authUser.getRole을 비교. 
 		// 단, admin으로 로그인되어있을경우에는 다 들어갈 수 있어야함. 
-		// 비교해서 admin page로 보내기 ~ 
-		if("USER".equals(role) || "USER".equals(authUser.getRole())) {
+		// 비교해서 admin page로 보내기 ~
+		if("USER".equals(role)) {
+			return true;
+		}
+		if("ADMIN".equals(authUser.getRole())) {
 			response.sendRedirect(request.getContextPath()+ "/user/login");
 			return false;
 		}

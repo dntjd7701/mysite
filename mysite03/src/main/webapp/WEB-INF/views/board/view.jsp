@@ -1,4 +1,4 @@
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>    
+	<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>    
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>    
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %> 
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
@@ -50,7 +50,7 @@
 										<c:if test='${not empty authUser }'>
 											<a href="${pageContext.request.contextPath }/board/reply/${no }">답글</a>
 										</c:if>
-										<a href="${pageContext.request.contextPath }/board">글목록</a>
+										<a href="${pageContext.request.contextPath }/board?p=${param.p }&kwd=${param.kwd }">글목록</a>
 									<c:if test='${authUser.no == viewinfo.userNo }'>
 										<a href="${pageContext.request.contextPath }/board/modify/${no }">글수정</a>
 									</c:if>

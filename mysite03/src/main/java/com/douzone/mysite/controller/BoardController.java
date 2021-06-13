@@ -1,7 +1,6 @@
 package com.douzone.mysite.controller;
-
-import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.douzone.mysite.security.Auth;
 import com.douzone.mysite.security.AuthUser;
 import com.douzone.mysite.service.BoardService;
 import com.douzone.mysite.vo.BoardVo;
@@ -22,20 +20,22 @@ import com.douzone.mysite.vo.UserVo;
 public class BoardController {
 	@Autowired
 	private BoardService boardService;
-	
-	@RequestMapping(value = {"","/{p}"}, method = RequestMethod.GET)
+	// paging 처리와, view, 그리고 search 를 한번에 구현하기 위해
+	// page 값을 받는 p, 검색어를 받는 kwd를 받는다. 
+	@RequestMapping("")
 	public String index(
-			@PathVariable(name="p", required=false) Integer p, 
+			@RequestParam(name="p", required=false, defaultValue="1") Integer page,
+			@RequestParam(name="kwd", required=false, defaultValue="") String keyword,
 			Model model) {
 		
+		// 리스트와 맵, 페이징과 리스트를 처리하는 부분을 따로하지 않고, 
+		// 하나의 map에 넣어서 보낸다. 
 		
-		HashMap<String, Integer> map = boardService.paging(p);
-		List<BoardVo> list = boardService.getList(map);
-
-		model.addAttribute("lists", list);
+		Map<String, Object> map = boardService.getList(page, keyword);
 		model.addAttribute("map", map);
 		return "board/list";
 	}
+
 	
 	
 	@RequestMapping(value="/view/{no}", method=RequestMethod.GET)
@@ -46,13 +46,13 @@ public class BoardController {
 	}
 	
 	
-	@Auth
+
 	@RequestMapping(value="/write", method=RequestMethod.GET)
 	public String write(@AuthUser UserVo authUser, Model model) {
 		return "board/write";
 	}
 	
-	@Auth
+
 	@RequestMapping(value="/writesuccess", method=RequestMethod.POST)
 	public String write(@AuthUser UserVo authUser, BoardVo vo) {
 		
@@ -81,7 +81,7 @@ public class BoardController {
 	}
 	
 	
-	@Auth
+
 	@RequestMapping(value="/delete/{no}", method=RequestMethod.GET)
 	public String delete(@PathVariable(value="no") Long no, @AuthUser UserVo authUser) {
 		
@@ -90,14 +90,14 @@ public class BoardController {
 		return "redirect:/board";
 	}
 	
-	@Auth
+	
 	@RequestMapping(value="/reply/{no}", method=RequestMethod.GET)
 	public String reply(@PathVariable(value="no", required=false) Long no, Model model) {
 		model.addAttribute(no);
 		return "board/reply";
 	}
 	
-	@Auth
+
 	@RequestMapping(value="/submitreply/{no}", method=RequestMethod.POST)
 	public String reply(@PathVariable("no") Long no,
 						@RequestParam(value="title", required=true, defaultValue="") String title,
@@ -118,8 +118,7 @@ public class BoardController {
 		boardService.doReply(replyVo);
 		return "redirect:/board";
 	}
-	
-	@Auth
+
 	@RequestMapping(value="/modify/{no}", method=RequestMethod.GET)
 	public String modify(@PathVariable(value="no", required=false) Long no, Model model) {
 		List<BoardVo> viewInfos = boardService.viewList(no);
@@ -132,7 +131,7 @@ public class BoardController {
 		return "board/modify";
 	}
 	
-	@Auth
+
 	@RequestMapping(value="/sumitmodify", method=RequestMethod.POST)
 	public String modify(
 			@RequestParam(value="title", required=true, defaultValue="") String title,
@@ -142,13 +141,4 @@ public class BoardController {
 		boardService.updateView(no, title, contents);
 		return "redirect:/board";
 	}
-	
-//	@RequestMapping("/search")
-//	public String search(
-//			@RequestParam("kwd") String kwd,
-//			@RequestParam("search") String search,
-//			Model model) {
-//		
-//		return "board/list";
-//	}
 }

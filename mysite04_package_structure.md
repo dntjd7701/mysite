@@ -11,7 +11,7 @@
           |                      |      |     |--- MyBatisConfig.java	[]
           |                      |      |--- web
           |                      |      |     |--- MvcConfig.java		[o]
-          |                      |      |     |--- SecurityConfig.java	[]
+          |                      |      |     |--- SecurityConfig.java	[o]
           |                      |      |     |--- MessageConfig.java	[o]
           |                      |      |     |--- FileuploadConfig.java	[o]
           |                      |--- mysite

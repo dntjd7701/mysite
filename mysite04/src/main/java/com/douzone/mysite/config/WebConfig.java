@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Import;
 import com.douzone.config.web.FileuploadConfig;
 import com.douzone.config.web.MessageConfig;
 import com.douzone.config.web.MvcConfig;
+import com.douzone.config.web.SecurityConfig;
 /** spring-servlet.xml에서 대체된 것들. 
  * 
  * @ComponentScan({"com.douzone.mysite.controller", "com.douzone.mysite.exception"})
@@ -23,7 +24,7 @@ import com.douzone.config.web.MvcConfig;
 @Configuration
 @EnableAspectJAutoProxy
 @ComponentScan({"com.douzone.mysite.controller", "com.douzone.mysite.exception"})
-@Import({MvcConfig.class, MessageConfig.class, FileuploadConfig.class})
+@Import({MvcConfig.class, MessageConfig.class, FileuploadConfig.class, SecurityConfig.class})
 public class WebConfig {
 
 }

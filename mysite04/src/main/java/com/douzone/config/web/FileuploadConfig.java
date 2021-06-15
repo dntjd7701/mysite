@@ -1,5 +1,6 @@
 package com.douzone.config.web;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
@@ -25,6 +26,7 @@ public class FileuploadConfig extends WebMvcConfigurerAdapter{
 	</bean>	
 	 */
 	
+	@Bean
 	public MultipartResolver multipartResolver() {
 		CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver();
 		multipartResolver.setMaxUploadSize(52428800);
@@ -42,8 +44,8 @@ public class FileuploadConfig extends WebMvcConfigurerAdapter{
 	
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
-		registry.addResourceHandler("/images/**");
-		registry.addResourceHandler("file:/Users/kang-woosung/uploads-mysite/");
+		registry.addResourceHandler("/images/**")
+				.addResourceLocations("file:/Users/kang-woosung/uploads-mysite/");
 	}
 	
 	

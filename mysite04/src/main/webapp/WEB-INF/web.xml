@@ -5,11 +5,16 @@
 	version="3.0">
 	<display-name>mysite04</display-name>
 
-
+	<!-- Context Parameter -->
+	<context-param>
+		<param-name>contextClass</param-name>
+		<param-value>org.springframework.web.context.support.AnnotationConfigWebApplicationContext</param-value>
+	</context-param>
+	
 	<!-- context-param -->
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
-		<param-value>/WEB-INF/applicationContext.xml</param-value>
+		<param-value>com.douzone.mysite.config.AppConfig</param-value>
 	</context-param>
 
 	<!-- Context Load Listener -->
@@ -54,16 +59,16 @@
 	</servlet-mapping>
 
 
-	<!-- Common Error Page -->
-	<!-- <error-page> <error-code>404</error-code> <location>/WEB-INF/views/error/404.jsp</location> 
-		</error-page> -->
+	 <!-- Common Error Page -->
+	<error-page> <error-code>404</error-code> <location>/WEB-INF/views/error/404.jsp</location> 
+		</error-page>
 
 
 
-	<!-- welcome(default) Page -->
+	welcome(default) Page
 
-	<!-- <error-page> <error-code>500</error-code> <location>/WEB-INF/views/error/500.jsp</location> 
-		</error-page> -->
+	<error-page> <error-code>500</error-code> <location>/WEB-INF/views/error/500.jsp</location> 
+		</error-page> 
 
 	<welcome-file-list>
 		<welcome-file>index.html</welcome-file>

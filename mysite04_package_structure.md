@@ -7,8 +7,8 @@
           |              |--- douzone
           |                      |--- config
           |                      |      |--- app
-          |                      |      |     |--- DBConfig.java	[]
-          |                      |      |     |--- MyBatisConfig.java	[]
+          |                      |      |     |--- DBConfig.java	[o]
+          |                      |      |     |--- MyBatisConfig.java [o]
           |                      |      |--- web
           |                      |      |     |--- MvcConfig.java		[o]
           |                      |      |     |--- SecurityConfig.java	[o]
@@ -22,7 +22,7 @@
           |                             |--- exception
           |                             |--- aop
           |                             |--- confing
-          |                                     |--- AppConfig.java	[]
+          |                                     |--- AppConfig.java	[o]
           |                                     |--- WebConfig.java	[o]
           |--- [resources]
           |       |--- logback.xml     		
@@ -43,7 +43,7 @@
 --company config
 src/main/java
 
-com.douzone.config.app	[]
+com.douzone.config.app	[o]
 com.douzone.config.web	[o]
 com.douzone.mysite.config [o]
 
@@ -51,7 +51,7 @@ com.douzone.mysite.config [o]
 src/main/resources
 
 com.douzone.mysite.config.app	[]
-com.douzone.mysite.config.app.mybatis	[]
-com.douzone.mysite.config.app.mybatis.mappers	[]
+com.douzone.mysite.config.app.mybatis	[o]
+com.douzone.mysite.config.app.mybatis.mappers	[o]
 com.douzone.mysite.config.web	[o]
 ````

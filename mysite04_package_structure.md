@@ -53,5 +53,5 @@ src/main/resources
 com.douzone.mysite.config.app	[]
 com.douzone.mysite.config.app.mybatis	[]
 com.douzone.mysite.config.app.mybatis.mappers	[]
-com.douzone.mysite.config.web	[]
+com.douzone.mysite.config.web	[o]
 ````

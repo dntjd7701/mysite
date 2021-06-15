@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.context.annotation.Import;
 
+import com.douzone.config.web.MessageConfig;
 import com.douzone.config.web.MvcConfig;
 /** spring-servlet.xml에서 대체된 것들. 
  * 

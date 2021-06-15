@@ -50,7 +50,7 @@ com.douzone.mysite.config [o]
 --my config
 src/main/resources
 
-com.douzone.mysite.config.app	[]
+com.douzone.mysite.config.app	[o]
 com.douzone.mysite.config.app.mybatis	[o]
 com.douzone.mysite.config.app.mybatis.mappers	[o]
 com.douzone.mysite.config.web	[o]

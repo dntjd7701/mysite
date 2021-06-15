@@ -71,11 +71,12 @@ $(function(){
 <%-- 				<input id="name" name="name" type="text" value="${userVo.name }"> --%>
 					
 					<p style='color:deeppink; text-align:left; padding-left:0'>
-					<spring:hasBindErrors name="userVo">
+					<%-- <spring:hasBindErrors name="userVo">
 						<c:if test="${errors.hasFieldErrors('name') }">
  					      	<strong><spring:message code='${errors.getFieldError("name").codes[0] }'/></strong> 
 					   </c:if>
-					</spring:hasBindErrors>
+					</spring:hasBindErrors> --%>
+						<strong><form:errors path="name"/></strong>
 					</p>
 
 					<label class="block-label" for="email">이메일</label>

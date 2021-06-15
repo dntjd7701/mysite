@@ -109,15 +109,15 @@ public class SecurityConfig extends WebMvcConfigurerAdapter{
 			.addPathPatterns("/user/auth");
 		
 		registry
-		.addInterceptor(logoutInterceptor())
-		.addPathPatterns("/user/logout");
+			.addInterceptor(logoutInterceptor())
+			.addPathPatterns("/user/logout");
 		
 		registry
-		.addInterceptor(authInterceptor())
-		.addPathPatterns("/**")
-		.excludePathPatterns("/user/auth")
-		.excludePathPatterns("/user/logout")
-		.excludePathPatterns("/assets/**");
+			.addInterceptor(authInterceptor())
+			.addPathPatterns("/**")
+			.excludePathPatterns("/user/auth")
+			.excludePathPatterns("/user/logout")
+			.excludePathPatterns("/assets/**");
 	}
 	
 	

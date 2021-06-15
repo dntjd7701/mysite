@@ -7,13 +7,13 @@
           |              |--- douzone
           |                      |--- config
           |                      |      |--- app
-          |                      |      |     |--- DBConfig.java
-          |                      |      |     |--- MyBatisConfig.java
+          |                      |      |     |--- DBConfig.java	[]
+          |                      |      |     |--- MyBatisConfig.java	[]
           |                      |      |--- web
-          |                      |      |     |--- MvcConfig.java
-          |                      |      |     |--- SecurityConfig.java
-          |                      |      |     |--- MessageSourceConfig.java
-          |                      |      |     |--- FileuploadConfig.java
+          |                      |      |     |--- MvcConfig.java		[o]
+          |                      |      |     |--- SecurityConfig.java	[]
+          |                      |      |     |--- MessageConfig.java	[]
+          |                      |      |     |--- FileuploadConfig.java	[]
           |                      |--- mysite
           |                             |--- controller
           |                             |--- service
@@ -22,8 +22,8 @@
           |                             |--- exception
           |                             |--- aop
           |                             |--- confing
-          |                                     |--- AppConfig.java
-          |                                     |--- WebConfig.java
+          |                                     |--- AppConfig.java	[]
+          |                                     |--- WebConfig.java	[o]
           |--- [resources]
           |       |--- logback.xml     		
           |       |--- com
@@ -40,6 +40,18 @@
           |                                     |--- web
           |                                           |--- message_ko.properties
           |                                           |--- fileupload.properties
+--company config
+src/main/java
 
+com.douzone.config.app	[]
+com.douzone.config.web	[o]
+com.douzone.mysite.config [o]
 
+--my config
+src/main/resources
+
+com.douzone.mysite.config.app	[]
+com.douzone.mysite.config.app.mybatis	[]
+com.douzone.mysite.config.app.mybatis.mappers	[]
+com.douzone.mysite.config.web	[]
 ````

@@ -1,0 +1,75 @@
+	<!-- Validator, conversionService, messageConverter를 자동으로 등록 -->
+	<mvc:annotation-driven>
+		<mvc:argument-resolvers>
+			<bean class="com.douzone.mysite.security.AuthUserHandlerMethodArgumentResolver"/>
+		</mvc:argument-resolvers>	
+	</mvc:annotation-driven>
+
+	
+	
+	
+	
+	<!-- Multipart Resolver  -->
+	<!-- 멀티파트 리졸버 -->
+	<bean id="multipartResolver" 
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<!-- 최대업로드 가능한 바이트크기 -->
+		<property name="maxUploadSize" value="52428800" />
+		<!-- 디스크에 임시 파일을 생성하기 전에 메모리에 보관할수있는 최대 바이트 크기 -->
+		<!-- property name="maxInMemorySize" value="52428800" /-->
+		<!-- defaultEncoding -->
+		<property name="defaultEncoding" value="utf-8" />
+	</bean>	
+	
+	<!--mvc resources mapping  -->
+	<!-- mapping 시에 img들의 위치는 location과 mapping이 각각 지정하는곳에 있어야한다.   -->
+	<mvc:resources location="file:/Users/kang-woosung/uploads-mysite/" mapping="/images/**"/>
+	
+
+
+
+
+
+	 <!-- 6. MessageSource -->
+	<bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
+	   <property name="basenames">
+	      <list>
+			<value>messages/messages_ko</value>
+			<!-- <value>messages/messages_jp</value>
+			<value>messages/messages_cn</value> -->
+	      </list>
+	   </property>
+	</bean>
+	
+	
+	
+	
+		<!-- Interceptors  -->
+	<mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path="/user/auth"/>
+			<bean class="com.douzone.mysite.security.LoginInterceptor"/>
+		</mvc:interceptor>
+	</mvc:interceptors>
+	
+	
+	<mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path="/user/logout"/>
+			<bean class="com.douzone.mysite.security.LogoutInterceptor"/>
+		</mvc:interceptor>
+	</mvc:interceptors>
+	
+	
+	<!-- 위에 둘 제외 + assets 애들 하고 나머지 다~ 검사   -->
+	<mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path="/**"/>
+			<mvc:exclude-mapping path="/user/auth"/>
+			<mvc:exclude-mapping path="/user/logout"/>
+			<mvc:exclude-mapping path="/assets/**"/>
+			<bean class="com.douzone.mysite.security.AuthInterceptor"/>
+		</mvc:interceptor>
+	</mvc:interceptors>
+
+</beans>

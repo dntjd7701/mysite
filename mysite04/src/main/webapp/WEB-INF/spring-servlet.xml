@@ -26,11 +26,6 @@
 	<mvc:resources location="file:/Users/kang-woosung/uploads-mysite/" mapping="/images/**"/>
 
 
-
-
-
-
-
 	
 		<!-- Interceptors  -->
 	<mvc:interceptors>

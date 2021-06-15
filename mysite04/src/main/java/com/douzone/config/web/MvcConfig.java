@@ -124,7 +124,7 @@ public class MvcConfig extends WebMvcConfigurerAdapter {
 	 */
 	
 	public MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter() {
-		Jackson2ObjectMapperBuilder builder = new Jackson2ObjectMapperBuilder()
+		new Jackson2ObjectMapperBuilder()
 				.indentOutput(true)
 				.simpleDateFormat("yyyy-mm-dd");
 		

@@ -23,7 +23,7 @@ public class DBConfig {
 		</bean>
 		<!-- characterEncoding=utf8 -->
 	 */
-	
+	 
 	@Bean
 	public DataSource dataSource() {
 		BasicDataSource dataSource = new BasicDataSource();

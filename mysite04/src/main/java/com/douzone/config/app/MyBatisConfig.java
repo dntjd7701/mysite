@@ -20,7 +20,6 @@ public class MyBatisConfig {
 			<property name="configLocation" value="classpath:mybatis/configuration.xml" /> 
 		</bean>
 	 */
-	
 	@Bean
 	public SqlSessionFactory sqlSessionFactory(DataSource dataSource, ApplicationContext applicationContext) throws Exception {
 		SqlSessionFactoryBean sqlSessionFactory= new SqlSessionFactoryBean();

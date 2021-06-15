@@ -14,4 +14,4 @@ import com.douzone.config.app.MyBatisConfig;
 @Import({DBConfig.class, MyBatisConfig.class})
 public class AppConfig {
 
-}
+} 

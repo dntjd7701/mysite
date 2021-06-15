@@ -12,8 +12,8 @@
           |                      |      |--- web
           |                      |      |     |--- MvcConfig.java		[o]
           |                      |      |     |--- SecurityConfig.java	[]
-          |                      |      |     |--- MessageConfig.java	[]
-          |                      |      |     |--- FileuploadConfig.java	[]
+          |                      |      |     |--- MessageConfig.java	[o]
+          |                      |      |     |--- FileuploadConfig.java	[o]
           |                      |--- mysite
           |                             |--- controller
           |                             |--- service

@@ -37,7 +37,7 @@ public class BoardController {
 		return "board/list";
 	}
 
-	
+		
 	
 	@RequestMapping(value="/view/{no}", method=RequestMethod.GET)
 	public String view(@PathVariable("no") Long no, Model model) {

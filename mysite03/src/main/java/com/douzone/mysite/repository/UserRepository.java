@@ -71,7 +71,6 @@ public class UserRepository {
 		map.put("e", email);
 		map.put("p", password);
 		
-		
 		return sqlSession.selectOne("user.findByEmailAndPassword", map);
 	}
 

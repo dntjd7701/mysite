@@ -54,7 +54,6 @@ public class UserController {
 
 	
 	
-	
 	@Auth
 	@RequestMapping(value = "/update", method = RequestMethod.GET)
 	public String update(@AuthUser UserVo authUser, Model model) {

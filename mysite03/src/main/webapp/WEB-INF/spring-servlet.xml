@@ -20,7 +20,7 @@
 	<mvc:interceptors>
 		<mvc:interceptor>
 			<mvc:mapping path="/user/auth"/>
-			<bean class="com.douzone.mysite.security.LoginInterceptor"/>
+			<bean class="com.douzone.jblog.security.LoginInterceptor"/>
 		</mvc:interceptor>
 	</mvc:interceptors>
 	
@@ -28,12 +28,13 @@
 	<mvc:interceptors>
 		<mvc:interceptor>
 			<mvc:mapping path="/user/logout"/>
-			<bean class="com.douzone.mysite.security.LogoutInterceptor"/>
+			<bean class="com.douzone.jblog.security.LogoutInterceptor"/>
 		</mvc:interceptor>
 	</mvc:interceptors>
 	
 	
 	<!-- 위에 둘 제외 + assets 애들 하고 나머지 다~ 검사   -->
+	
 	<mvc:interceptors>
 		<mvc:interceptor>
 			<mvc:mapping path="/**"/>

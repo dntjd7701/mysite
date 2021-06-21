@@ -1,0 +1,30 @@
+# active spring boot profile
+spring: 
+   profiles: 
+      active: dev
+
+
+
+---
+# common spring boot configuration
+spring: 
+   profiles: 
+      
+
+---
+# dev profile - spring boot configuration  
+spring: 
+   profiles: dev 
+      
+
+
+---
+# production profile - spring boot configuration  
+spring: 
+   profiles: production 
+
+
+
+
+---
+# server  

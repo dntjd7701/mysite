@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="board">
+	<!-- totalCount를 조건에 맞게 구하여야한다. 
+		상기 조건과 같이, 검색어가 ""이거나 null 값일 경우엔
+		전체 리스트를, 검색어에 값이 존재할 경우에는 그 값에 맞는 리스트를 추출하여야한다. -->
+		
+		<!-- 검색 조건은, title, contents, userName 으로 한다.  -->
+	<select id="totalCount" parameterType="string" resultType="integer">
+		<choose>
+			<when test="_parameter == null or _parameter == ''">
+					<![CDATA[
+						select count(*) from board
+					]]>
+			</when>
+			<otherwise>
+				<![CDATA[
+						select 
+							count(*)
+						from board b, user u
+						where 
+							b.user_no=u.no 
+						and (b.title like '%${_parameter}%' or b.contents like '%${_parameter}%' or u.name like '%${_parameter}%')
+				]]>
+			</otherwise>
+		</choose>
+	</select>
+	
+	
+	<select id="findAllByKeywordAndPage" resultType="boardvo" parameterType="map">
+		<choose>
+			<when test="keyword == null or keyword ==''">
+				<![CDATA[
+				select
+					b.no,
+					b.title,
+					b.hit,
+					date_format(reg_date, '%Y-%m-%d %p %h:%i:%s') as regDate,
+					b.depth,
+				  	u.name as userName,
+				  	b.user_no as userNo
+					from board b, user u
+				   where b.user_no = u.no
+				order by group_no desc, order_no asc
+				   limit #{startIndex }, #{size }
+				]]>
+			</when>
+			<otherwise>
+				<![CDATA[
+				 select 
+				 	 b.no,
+			  		 b.title,
+				  	 b.hit,
+					date_format(reg_date, '%Y-%m-%d %p %h:%i:%s') as regDate,
+				  	 b.depth, 
+				  	 u.name as userName,
+					 b.user_no as userNo
+				  	from board b, user u
+				   where b.user_no = u.no
+				     and (b.title like '%${keyword }%' or b.contents like '%${keyword }%' or u.name like '%${keyword }%' )
+				order by group_no desc, order_no asc
+				   limit #{startIndex }, #{size }	
+				]]>
+			</otherwise>
+		</choose>
+	</select>
+	
+	
+	
+	<select id="findByViewInfo" parameterType="long" resultType="boardvo" >
+		<![CDATA[
+		select no, title, contents, hit, user_no as userNo
+			from board
+			where no=#{value}
+		]]>
+	</select>
+	
+	<select id="maxGroupNo" resultType="integer" >
+		<![CDATA[
+			select max(group_no) from board
+		]]>
+	</select>
+	
+	
+	
+	<select id="findByIDs" parameterType="long" resultType="boardvo" >
+		<![CDATA[
+			select group_no as groupNo, order_no as orderNo, depth, user_no as userNo
+				from board
+				where no=#{no};
+	
+		]]>
+	</select>
+	
+	<update id="updateNo" parameterType="boardvo">
+		<![CDATA[
+			update board
+				set order_no=order_no+1
+				where group_no=${groupNo} and order_no >= ${orderNo}
+		]]>
+	</update>
+	
+	
+	<update id="upHits" parameterType="long" >
+		<![CDATA[
+			update board
+				set hit=hit+1
+				where no=#{no}
+		]]>
+	</update>
+	
+	
+	<update id="UpdateTitleAndContent" parameterType="boardvo">
+		<![CDATA[
+			update board
+				set title=#{title }, contents=#{contents }
+				where no=#{no }
+		]]>
+	</update>
+	
+	
+	<insert id="insert" parameterType="boardvo">
+		<![CDATA[
+			insert
+				into board
+				values (null, #{title }, #{contents }, now(), 0, #{groupNo }, #{orderNo }, #{depth }, #{userNo } )
+			]]>	
+	</insert>
+	
+	
+	<delete id="delete" parameterType="long">
+		<![CDATA[
+			delete
+				from board
+				where no=#{no }
+		]]>
+	</delete>
+
+
+
+
+
+<!-- 
+	
+	
+	<select id="findThisPage" parameterType="map" resultType="boardvo" >
+		<![CDATA[
+		select b.no, b.title, b.hit, u.name,
+					 b.user_no as userNo, date_format(reg_date, '%Y/%m/%d %H:%i:%s') as regDate,
+					 b.order_no as orderNo, b.depth, b.group_no as groupNo  
+			from user u, board b
+			where b.user_no=u.no
+			order by group_no DESC, order_no asc
+			limit #{startPage}, #{onePageCount}
+		]]>
+	</select>
+	
+	<select id="search" parameterType="map" resultType="boardvo" >
+		<![CDATA[
+		select b.no, b.title, b.hit, u.name,
+					 b.user_no as userNo, date_format(reg_date, '%Y/%m/%d %H:%i:%s') as regDate,
+					 b.order_no as orderNo, b.depth, b.group_no as groupNo  
+			from user u, board b
+			where b.user_no=u.no
+			like '%${text or contents or userName}%'
+			order by group_no DESC, order_no asc
+			limit #{startPage}, #{onePageCount}
+		]]>
+	</select>
+	
+	
+	<select id="findByViewInfo" parameterType="long" resultType="boardvo" >
+		<![CDATA[
+		select no, title, contents, hit, user_no as userNo
+			from board
+			where no=#{value}
+		]]>
+	</select>
+	
+	<select id="maxGroupNo" resultType="integer" >
+		<![CDATA[
+			select max(group_no) from board
+		]]>
+	</select>
+	
+	
+	
+	<select id="findByIDs" parameterType="long" resultType="boardvo" >
+		<![CDATA[
+			select group_no as groupNo, order_no as orderNo, depth, user_no as userNo
+				from board
+				where no=#{no};
+	
+		]]>
+	</select>
+	
+	<update id="updateNo" parameterType="boardvo">
+		<![CDATA[
+			update board
+				set order_no=order_no+1
+				where group_no=${groupNo} and order_no >= ${orderNo}
+		]]>
+	</update>
+	
+	
+	<update id="upHits" parameterType="long" >
+		<![CDATA[
+			update board
+				set hit=hit+1
+				where no=#{no}
+		]]>
+	</update>
+	
+	
+	<update id="UpdateTitleAndContent" parameterType="boardvo">
+		<![CDATA[
+			update board
+				set title=#{title }, contents=#{contents }
+				where no=#{no }
+		]]>
+	</update>
+	
+	
+	<insert id="insert" parameterType="boardvo">
+		<![CDATA[
+			insert
+				into board
+				values (null, #{title }, #{contents }, now(), 0, #{groupNo }, #{orderNo }, #{depth }, #{userNo } )
+			]]>	
+	</insert>
+	
+	
+	<delete id="delete" parameterType="long">
+		<![CDATA[
+			delete
+				from board
+				where no=#{no }
+		]]>
+	</delete>
+	 -->
+</mapper>
+ 
+ 
+ 

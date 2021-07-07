@@ -33,12 +33,11 @@
 	</select>	
 	
 	
-	
 	<insert id="insert" parameterType="guestbookvo">
 		<![CDATA[
 		insert
 			into guestbook
-			values(null, #{name }, #{password }, #{message}, now())
+			values(null, #{name }, #{password }, #{message }, now())
 		]]>
 		
 		<!-- last_insert_id() 이것만 되는거임  -->

@@ -8,10 +8,13 @@
 <title>mysite</title>
 <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <link rel="stylesheet" href="${pageContext.request.contextPath }/assets/css/guestbook-spa.css" rel="stylesheet" type="text/css">
+<!-- alert를 이쁘게 꾸미기 위한 dialog 받기 -->
 <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <script type="text/javascript" src="${pageContext.request.contextPath }/assets/js/jquery/jquery-1.9.0.js"></script>
+<!-- alert를 이쁘게 꾸미기 위한 dialog 받기 -->
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
  <script>
+/* List */ 
 var render = function(vo){
 	const html = "<li data-no='" + vo.no + "'>" + 
 	"<strong>" + vo.name + "</strong>" +
@@ -39,19 +42,150 @@ var fetch = function(no){
 		}
 	})
 };
+/* List */
 
-$(function(){
-	var no = "no=0";
-	$("#btn-fetch").click(function(){
-		no = "no=" + $("#list-guestbook li:last-child").attr("data-no");
-		fetch(no);
+
+/* Add */
+/*  message dialog  */
+// alert는 구리니까, 이쁜 dialog쓰자. jQuery ui 쓰면 돼 
+var messageDialog = function(message){
+	$("#dialog-message").dialog({
+		modal: true,
+		buttons: {
+			"확인": function(){
+				$(this).dialog("close");
+			}
+		}
+	});
+	$("#dialog-message p").text(message);
+}
+
+var add = function(){
+	
+	$("#add-form").submit(function(event){
+		event.preventDefault(); // event 막기 (submit 막기)
+		vo = {}; // add-form 의 데이터 받기용
+		vo.name = $("#input-name").val(); //form의 input데이터 받아서 담기.
+		vo.password = $("#input-password").val();
+		vo.message = $("#tx-content").val();
+		/* Validations */
+		if(vo.name == ""){
+			messageDialog("이름을 입력해주세요.");
+			return;
+		}
+		if(vo.password == ""){
+			messageDialog("비밀번호를 입력해주세요.");
+			return;
+		}
+		if(vo.message == ""){
+			messageDialog("내용을 입력해주세요.");
+			return;
+		}
+		
+		// ajax
+		$.ajax({
+				url: "${pageContext.request.contextPath }/guestbook/api/add",
+				dataType: "json",
+				type: "post",
+				contentType: "application/json",
+				data: JSON.stringify(vo),
+				success : function(response){ // callback
+					if(response.result != "success"){
+						response.error(response.message);
+						return;
+					};
+					var vo = response.data;
+					html = render(vo);
+					$("#list-guestbook").prepend(html);	
+				}   
+			});
+		
+		});
+};
+/* Add */
+
+
+/* delete */
+var del = function(){
+	// live event: 존재하지 않는 element의 이벤트 핸들러를 미리 등록
+	// delegation(위임 -> document)
+	$(document).on("click", "#list-guestbook li a", function(event){
+		event.preventDefault();
+		
+		let no = $(this).data("no");
+		$("#hidden-no").val(no);
+		
+		deleteDialog.dialog("open");
 	});
 	
-	// 최초 데이터 가져오기
+	// 삭제 다이얼로그 만들기 
+	const deleteDialog = $("#dialog-delete-form").dialog({
+		autoOpen:false,
+		width: 400,
+		height: 250,
+		modal: true,
+		buttons: {
+			"삭제": function(){
+				const no = $("#hidden-no").val();
+				const password = $("#password-delete").val();
+				// ajax
+				$.ajax({
+						url: "${pageContext.request.contextPath }/guestbook/api/delete/" + no,
+						dataType: "json",
+						type: "post",
+						data: "password=" + password,
+						success : function(response){ // callback
+							if(response.result != "success"){	// 비밀번호가 틀린 경우
+								$(".validateTips.error").show();
+								$("#password-delete").val("");
+							} 
+							$("#list-guestbook li[data-no=" + response.data.no + "]").remove();
+							deleteDialog.dialog("close");
+						}   
+					})
+				},
+			"취소": function(){
+				/* 비밀번호 초기화 작업이 필요. */
+				$(this).dialog("close");	
+				$("#password-delete").val("");
+				}
+		},
+		close: function(){
+			// 1. password 비우기
+			// 2. no 비우기
+			// 3. error message 숨기기 
+			$("#password-delete").val("");
+			$("#hidden-no").val("");
+			$(".validateTips.error").hide();
+			
+		}
+	});
+};
+/* delete */
+
+
+
+
+
+/* main */
+$(function(){
+	/* List */
+		var no = "no=0";
+		$("#btn-fetch").click(function(){
+			no = "no=" + $("#list-guestbook li:last-child").attr("data-no");
+			fetch(no);
+		});
+		// 최초 데이터 가져오기
+		fetch(no);
+	/* Add */	
+		add();
 	
-	fetch(no);
+	/* Delete  */
+		del();
+	
 });
 </script>
+
 
 <!-- /* guestbook application based on jQuery */
 
@@ -100,15 +234,6 @@ $(function(){
 				
 				<!-- list -->
 				<ul id="list-guestbook">
-					<!-- <li data-no=''>
-						<strong>지나가다가</strong>
-						<p>
-							별루입니다.<br>
-							비번:1234 -,.-
-						</p>
-						<strong></strong>
-						<a href='' data-no=''>삭제</a> 
-					</li> -->
 				</ul>
 				
 				<!-- next list button  -->
@@ -129,7 +254,7 @@ $(function(){
 			</div>
 			
 			<!-- message dialog -->
-			<div id="dialog-message" title="" style="display:none">
+			<div id="dialog-message" title="ERROR" style="display:none">
   				<p></p>
 			</div>
 							

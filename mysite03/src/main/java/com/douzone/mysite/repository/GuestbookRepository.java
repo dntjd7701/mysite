@@ -24,9 +24,7 @@ public class GuestbookRepository {
 	
 	
 	public boolean insert(GuestbookVo vo) {
-		System.out.println(vo);
 		int count = sqlSession.insert("guestbook.insert", vo);
-		System.out.println(vo);
 		return count == 1;
 	}
 	

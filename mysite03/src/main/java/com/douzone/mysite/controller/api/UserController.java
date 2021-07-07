@@ -16,7 +16,7 @@ import com.douzone.mysite.vo.UserVo;
  *
  */
 //@RestController >> ResponseBody 안써도 다 메시지로. 
-//@GetMapping() -- >RequestMapping, get 방식.
+//@GetMapping() --> RequestMapping, get 방식.
 @Controller("userControllerApi")
 @RequestMapping("/user/api")
 public class UserController {

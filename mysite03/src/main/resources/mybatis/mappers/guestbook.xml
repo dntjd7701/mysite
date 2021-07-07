@@ -10,6 +10,30 @@
 		]]>
 	</select>	
 	
+	<select id="findAllByNo" resultType="guestbookvo" parameterType="long">
+		<choose>
+		<when test="_parameter == 0">
+		<![CDATA[
+			select no, name, date_format(reg_date, '%Y/%m/%d %H:%i:%s') as reg_date, message
+			from guestbook 
+			order by no desc
+            limit 0, 3
+		]]>
+		</when>
+		<otherwise>
+		<![CDATA[
+			select no, name, date_format(reg_date, '%Y/%m/%d %H:%i:%s') as reg_date, message
+			from guestbook 
+		    where no < #{no }
+		    order by no desc
+		    limit 0, 3
+		]]>
+		</otherwise>
+		</choose>
+	</select>	
+	
+	
+	
 	<insert id="insert" parameterType="guestbookvo">
 		<![CDATA[
 		insert

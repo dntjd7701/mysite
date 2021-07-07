@@ -10,10 +10,16 @@ import com.douzone.mysite.vo.GuestbookVo;
 
 @Repository
 public class GuestbookRepository {
+	
 	@Autowired
 	private SqlSession sqlSession;
+	
 	public List<GuestbookVo> findAll() {
 		return sqlSession.selectList("guestbook.findAll");
+	}
+	
+	public List<GuestbookVo> findAll(Long no) {
+		return sqlSession.selectList("guestbook.findAllByNo", no);
 	}
 	
 	

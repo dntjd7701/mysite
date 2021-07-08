@@ -13,34 +13,33 @@
 <script type="text/javascript" src="${pageContext.request.contextPath }/assets/js/jquery/jquery-1.9.0.js"></script>
 <!-- alert를 이쁘게 꾸미기 위한 dialog 받기 -->
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<!-- Template(rendering) EJS -->
+<script type="text/javascript" src="${pageContext.request.contextPath }/ejs/ejs.js"></script>
  <script>
+/* EJS */
+ 
+/* Template Mapping EJS 객체 생성 */
+var listEJS = new EJS({
+		url : "${pageContext.request.contextPath }/ejs/list-template.ejs",
+	})
+var listItemEJS = new EJS({
+	url : "${pageContext.request.contextPath }/ejs/listitem-template.ejs",
+})
 /* List */ 
-var render = function(vo){
-	const html = "<li data-no='" + vo.no + "'>" + 
-	"<strong>" + vo.name + "</strong>" +
-	"<p>" + vo.message + "</p>" +
-	"<strong></strong>" + 
-	"<a href='' data-no='" + vo.no + "'>삭제</a>" + 
-	"</li>";
-	return html;
-}
 var fetch = function(no){
 	$.ajax({
-		url:"${pageContext.request.contextPath }/guestbook/api/list",
+		url:"${pageContext.request.contextPath }/guestbook/api/" + no,
 		dataType: "json",
-		data: no,
 		type: "get",
 		success: function(response){
 			if(response.result != "success"){
 				response.error(response.message);
 				return;
 			};
-			response.data.forEach(function(vo){
-				html = render(vo);
+				html = listEJS.render(response);
 				$("#list-guestbook").append(html);
-			});
-		}
-	})
+			}
+		});
 };
 /* List */
 
@@ -84,9 +83,9 @@ var add = function(){
 		
 		// ajax
 		$.ajax({
-				url: "${pageContext.request.contextPath }/guestbook/api/add",
+				url: "${pageContext.request.contextPath }/guestbook/api",
 				dataType: "json",
-				type: "post",
+				type: "put",
 				contentType: "application/json",
 				data: JSON.stringify(vo),
 				success : function(response){ // callback
@@ -94,8 +93,8 @@ var add = function(){
 						response.error(response.message);
 						return;
 					};
-					var vo = response.data;
-					html = render(vo);
+					/* EJS내부 함수 render 사용, Mapping한 템플릿으로 적용 */
+					html = listItemEJS.render(response.data);
 					$("#list-guestbook").prepend(html);	
 				}   
 			});
@@ -130,9 +129,9 @@ var del = function(){
 				const password = $("#password-delete").val();
 				// ajax
 				$.ajax({
-						url: "${pageContext.request.contextPath }/guestbook/api/delete/" + no,
+						url: "${pageContext.request.contextPath }/guestbook/api/" + no,
 						dataType: "json",
-						type: "post",
+						type: "delete",
 						data: "password=" + password,
 						success : function(response){ // callback
 							if(response.result != "success"){	// 비밀번호가 틀린 경우
@@ -163,20 +162,43 @@ var del = function(){
 };
 /* delete */
 
+/* Next button -> Scroll */
+/* 
+/$("#btn-fetch").click(function(){
+	no = "no=" + $("#list-guestbook li:last-child").attr("data-no");
+	fetch(no);
+	}); 
+*/
 
+var scroll = function(){
+	// jQueyr API를 사용하기 위해 window를 둘러쌈 
+	$(window).scroll(function(){
+		
+		// 여기서의 this는 윈도우이다.
+		// window height는 고정적이지 않기 때문에(사용자의 창 크기 변형)
+		// 이벤트에 따라 구해져야한다.
+		var windowHeight = $(this).height();
+		var scrollTop = $(this).scrollTop();
+		var documentHeight = $(document).height();
+		
+		// 공식
+		if(scrollTop+windowHeight+10 >= documentHeight){
+				const no = $("#list-guestbook li:last-child").attr("data-no");
+				fetch(no);
+			}; 
+		});
+};
 
 
 
 /* main */
 $(function(){
 	/* List */
-		var no = "no=0";
-		$("#btn-fetch").click(function(){
-			no = "no=" + $("#list-guestbook li:last-child").attr("data-no");
-			fetch(no);
-		});
+		var no = 0;
 		// 최초 데이터 가져오기
 		fetch(no);
+	/* Scroll */
+		scroll();
 	/* Add */	
 		add();
 	
@@ -236,10 +258,10 @@ $(function(){
 				<ul id="list-guestbook">
 				</ul>
 				
-				<!-- next list button  -->
-				<div style="margin:20px 0 auto 0">
+			 <!-- next list button  -->
+			<!--<div style="margin:20px 0 auto 0">
 					<button id="btn-fetch">다음 가져오기</button>
-				</div>
+				</div> -->
 				
 				<!-- delete dialog -->
 			</div>

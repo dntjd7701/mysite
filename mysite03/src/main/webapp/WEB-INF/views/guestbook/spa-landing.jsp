@@ -16,8 +16,11 @@
 <!-- Template(rendering) EJS -->
 <script type="text/javascript" src="${pageContext.request.contextPath }/ejs/ejs.js"></script>
  <script>
-/* EJS */
  
+ /* flag */
+ var isEnd = false;
+ 
+/* EJS */
 /* Template Mapping EJS 객체 생성 */
 var listEJS = new EJS({
 		url : "${pageContext.request.contextPath }/ejs/list-template.ejs",
@@ -25,8 +28,51 @@ var listEJS = new EJS({
 var listItemEJS = new EJS({
 	url : "${pageContext.request.contextPath }/ejs/listitem-template.ejs",
 })
+/*  message dialog  */
+// alert는 구리니까, 이쁜 dialog쓰자. jQuery ui 쓰면 돼 
+var messageDialog = function(message, callback){
+	$("#dialog-message").dialog({
+		modal: true,
+		buttons: {
+			"확인": function(){
+				$(this).dialog("close");
+			}
+		},
+		close: callback
+	});
+	$("#dialog-message p").text(message);
+}
+
+
+/* Scroll  */
+
+// jQueyr API를 사용하기 위해 window를 둘러쌈 
+$(window).scroll(function(){
+			
+	// 여기서의 this는 윈도우이다.
+	// window height는 고정적이지 않기 때문에(사용자의 창 크기 변형)
+	// 이벤트에 따라 구해져야한다.
+	var windowHeight = $(this).height();
+	var scrollTop = $(this).scrollTop();
+	var documentHeight = $(document).height();
+	
+	// 공식
+	if(scrollTop+windowHeight+40 > documentHeight){
+			const no = $("#list-guestbook li:last-child").attr("data-no");
+			fetch(no);
+	} 
+});
+	
 /* List */ 
 var fetch = function(no){
+	$("#btn-fetch").click(function(){
+		no = $("#list-guestbook li:last-child").attr("data-no");
+		fetch(no);
+	}); 
+	
+	if(isEnd){
+		return;
+	}
 	$.ajax({
 		url:"${pageContext.request.contextPath }/guestbook/api/" + no,
 		dataType: "json",
@@ -36,6 +82,16 @@ var fetch = function(no){
 				response.error(response.message);
 				return;
 			};
+			
+			// detect end
+			if(response.data.length === 0){
+				isEnd = true;
+				// attr이 아닌 property 사용해줘야한다.
+				$("#btn-fetch").prop("disabled", true);
+				return;
+			}
+			
+			// rendering
 				html = listEJS.render(response);
 				$("#list-guestbook").append(html);
 			}
@@ -43,24 +99,8 @@ var fetch = function(no){
 };
 /* List */
 
-
 /* Add */
-/*  message dialog  */
-// alert는 구리니까, 이쁜 dialog쓰자. jQuery ui 쓰면 돼 
-var messageDialog = function(message){
-	$("#dialog-message").dialog({
-		modal: true,
-		buttons: {
-			"확인": function(){
-				$(this).dialog("close");
-			}
-		}
-	});
-	$("#dialog-message p").text(message);
-}
-
 var add = function(){
-	
 	$("#add-form").submit(function(event){
 		event.preventDefault(); // event 막기 (submit 막기)
 		vo = {}; // add-form 의 데이터 받기용
@@ -85,7 +125,7 @@ var add = function(){
 		$.ajax({
 				url: "${pageContext.request.contextPath }/guestbook/api",
 				dataType: "json",
-				type: "put",
+				type: "post",
 				contentType: "application/json",
 				data: JSON.stringify(vo),
 				success : function(response){ // callback
@@ -94,19 +134,25 @@ var add = function(){
 						return;
 					};
 					/* EJS내부 함수 render 사용, Mapping한 템플릿으로 적용 */
+					//rendering
 					html = listItemEJS.render(response.data);
-					$("#list-guestbook").prepend(html);	
-				}   
+					$("#list-guestbook").prepend(html);
+					
+					// form reset
+					$("#add-form")[0].reset();
+				},
+				error: function(xhr, status, e){
+					console.error(status + ":" + e);
+				}
 			});
 		
 		});
 };
 /* Add */
 
-
 /* delete */
 var del = function(){
-	// live event: 존재하지 않는 element의 이벤트 핸들러를 미리 등록
+	//live event: 존재하지 않는 element의 이벤트 핸들러를 미리 등록
 	// delegation(위임 -> document)
 	$(document).on("click", "#list-guestbook li a", function(event){
 		event.preventDefault();
@@ -134,20 +180,31 @@ var del = function(){
 						type: "delete",
 						data: "password=" + password,
 						success : function(response){ // callback
-							if(response.result != "success"){	// 비밀번호가 틀린 경우
+							if(response.result != "success"){
+								// 비밀번호가 틀린경우
 								$(".validateTips.error").show();
+								console.error(response.message);
 								$("#password-delete").val("");
+								return;
 							} 
-							$("#list-guestbook li[data-no=" + response.data.no + "]").remove();
-							deleteDialog.dialog("close");
-						}   
-					})
+							// 삭제 처리 
+							if(response.data != -1){
+								$("#list-guestbook li[data-no=" + response.data.no + "]").remove();
+								deleteDialog.dialog("close");
+								return;
+							}
+						
+						},
+						error: function(xhr, status, e){
+							console.error(status + ":" + e);
+						}
+					});
 				},
 			"취소": function(){
 				/* 비밀번호 초기화 작업이 필요. */
 				$(this).dialog("close");	
 				$("#password-delete").val("");
-				}
+			}
 		},
 		close: function(){
 			// 1. password 비우기
@@ -162,48 +219,21 @@ var del = function(){
 };
 /* delete */
 
-/* Next button -> Scroll */
-/* 
-/$("#btn-fetch").click(function(){
-	no = "no=" + $("#list-guestbook li:last-child").attr("data-no");
-	fetch(no);
-	}); 
-*/
-
-var scroll = function(){
-	// jQueyr API를 사용하기 위해 window를 둘러쌈 
-	$(window).scroll(function(){
-		
-		// 여기서의 this는 윈도우이다.
-		// window height는 고정적이지 않기 때문에(사용자의 창 크기 변형)
-		// 이벤트에 따라 구해져야한다.
-		var windowHeight = $(this).height();
-		var scrollTop = $(this).scrollTop();
-		var documentHeight = $(document).height();
-		
-		// 공식
-		if(scrollTop+windowHeight+10 >= documentHeight){
-				const no = $("#list-guestbook li:last-child").attr("data-no");
-				fetch(no);
-			}; 
-		});
-};
-
-
-
 /* main */
+
 $(function(){
 	/* List */
 		var no = 0;
 		// 최초 데이터 가져오기
 		fetch(no);
-	/* Scroll */
-		scroll();
+	
 	/* Add */	
-		add();
+		
+	add();
 	
 	/* Delete  */
-		del();
+	
+	del();
 	
 });
 </script>
@@ -259,9 +289,9 @@ $(function(){
 				</ul>
 				
 			 <!-- next list button  -->
-			<!--<div style="margin:20px 0 auto 0">
+				<div style="margin:20px 0 auto 0">
 					<button id="btn-fetch">다음 가져오기</button>
-				</div> -->
+				</div> 
 				
 				<!-- delete dialog -->
 			</div>
